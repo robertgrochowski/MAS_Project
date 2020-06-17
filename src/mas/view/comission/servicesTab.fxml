@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mas.controller.ServicesTab">
+<children>
+    <GridPane hgap="10.0" layoutX="14.0" layoutY="5.0" vgap="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="200.0" prefWidth="216.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="300.0" prefWidth="678.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="220.0" prefHeight="310.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="169.0" prefHeight="175.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="50.0" prefHeight="60.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+        <children>
+            <TitledPane animated="false" collapsible="false" text="Wybierz usługi z listy" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1000.0">
+                        <children>
+                            <TableView fx:id="chooseServicesTable" prefHeight="236.0" prefWidth="660.0" AnchorPane.bottomAnchor="2.1999999999999886" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columns>
+                                    <TableColumn fx:id="catalogueNumberCol" maxWidth="100.0" minWidth="50.0" prefWidth="100.0" text="Nr kat." />
+                                    <TableColumn fx:id="descriptionCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="400.0" text="Opis" />
+                              <TableColumn fx:id="tireSizeCol" minWidth="70.0" prefWidth="75.0" text="Wielkość" visible="false" />
+                              <TableColumn fx:id="tireTypeCol" minWidth="70.0" prefWidth="75.0" text="Typ opony" visible="false" />
+                              <TableColumn fx:id="tireManYearCol" minWidth="70.0" prefWidth="75.0" text="Rok prod." visible="false" />
+                              <TableColumn fx:id="cleaningTypeCol" minWidth="100.0" prefWidth="100.0" text="Typ czyszczenia" visible="false" />
+                              <TableColumn fx:id="carSizeCol" minWidth="90.0" prefWidth="75.0" text="Rozmiar auta" visible="false" />
+                                    <TableColumn fx:id="realizationTimeCol" maxWidth="1.7976931348623157E308" minWidth="90.0" prefWidth="90.0" text="Czas realizacji" />
+                                    <TableColumn fx:id="priceCol" maxWidth="1.7976931348623157E308" minWidth="60.0" prefWidth="53.000030517578125" text="Cena" />
+                                    <TableColumn fx:id="selectCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="70.0" style="-fx-alignment: CENTER;" text="Wybierz" />
+                                </columns>
+                                <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                </columnResizePolicy>
+                            </TableView>
+                        <TableView fx:id="cleaningTable" layoutX="20.0" layoutY="20.0" prefHeight="236.0" prefWidth="660.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <columns>
+                              <TableColumn maxWidth="100.0" minWidth="50.0" prefWidth="100.0" text="Nr kat." />
+                              <TableColumn maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="400.0" text="Opis" />
+                              <TableColumn maxWidth="1.7976931348623157E308" minWidth="90.0" prefWidth="90.0" text="Czas realizacji" />
+                              <TableColumn maxWidth="1.7976931348623157E308" minWidth="60.0" prefWidth="53.000030517578125" text="Cena" />
+                              <TableColumn maxWidth="1.7976931348623157E308" minWidth="90.0" prefWidth="70.0" text="Wybierz" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        </children></AnchorPane>
+                </content>
+            </TitledPane>
+            <TitledPane animated="false" collapsible="false" text="Filtry" GridPane.valignment="TOP">
+                <GridPane.margin>
+                    <Insets />
+                </GridPane.margin>
+                <content>
+                    <VBox prefHeight="224.0" prefWidth="214.0">
+                        <children>
+                            <Label text="Typ usługi">
+                                <font>
+                                    <Font size="15.0" />
+                                </font>
+                            </Label>
+                            <RadioButton fx:id="technicalRepairTypeRadio" mnemonicParsing="false" selected="true" text="Naprawa techniczna">
+                                <VBox.margin>
+                                    <Insets top="5.0" />
+                                </VBox.margin>
+                                <toggleGroup>
+                                    <ToggleGroup fx:id="ServiceType" />
+                                </toggleGroup>
+                            </RadioButton>
+                            <RadioButton fx:id="tiresSwapTypeRadio" mnemonicParsing="false" text="Wymiana opon" toggleGroup="$ServiceType" />
+                            <RadioButton fx:id="cleaningTypeRadio" mnemonicParsing="false" text="Czyszczenie" toggleGroup="$ServiceType" />
+                            <Label text="Filtry">
+                                <font>
+                                    <Font size="15.0" />
+                                </font>
+                                <VBox.margin>
+                                    <Insets top="10.0" />
+                                </VBox.margin>
+                            </Label>
+                            <GridPane hgap="5.0" vgap="5.0">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="169.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                    <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                <children>
+                                    <Label text="Nr kat." />
+                                    <Label text="Opis" GridPane.rowIndex="1" />
+                                    <TextField fx:id="catalogueNumberTextField" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
+                                    <TextField fx:id="descriptionTextField" prefWidth="156.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Button fx:id="clearTextField" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Wyczyść" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                                </children>
+                            </GridPane>
+                        </children>
+                    </VBox>
+                </content>
+            </TitledPane>
+            <TitledPane animated="false" collapsible="false" text="Koszyk - wybrane usługi" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="214.0" prefWidth="650.0">
+                        <children>
+                            <TableView fx:id="tableCart" layoutX="23.6" layoutY="24.6" prefHeight="197.0" prefWidth="647.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columns>
+                                    <TableColumn fx:id="catalogueNumberCartCol" maxWidth="100.0" minWidth="50.0" prefWidth="100.0" text="Nr kat." />
+                                    <TableColumn fx:id="detailsCartCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="500.0" text="Szczegółowe dane" />
+                                    <TableColumn fx:id="priceCartCol" maxWidth="1.7976931348623157E308" minWidth="80.0" prefWidth="100.0" text="Cena" />
+                                    <TableColumn fx:id="realizationTimeCartCol" maxWidth="1.7976931348623157E308" minWidth="90.0" prefWidth="94.00003051757812" text="Czas realizacji" />
+                                    <TableColumn fx:id="deleteFromCartCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="100.0" style="-fx-alignment: CENTER;" text="Usuń" />
+                                </columns>
+                                <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                </columnResizePolicy>
+                            </TableView>
+                        </children></AnchorPane>
+                </content>
+            </TitledPane>
+            <TitledPane animated="false" collapsible="false" text="Podsumowanie" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                <content>
+                    <VBox>
+                        <children>
+                            <Label fx:id="totalPriceLabel" text="Suma: X PLN">
+                                <font>
+                                    <Font size="15.0" />
+                                </font>
+                            </Label>
+                            <Label fx:id="estimatedLeadTimeLabel" layoutX="20.0" layoutY="20.0" text="Szacowany czas realizacji: x h">
+                                <font>
+                                    <Font size="13.0" />
+                                </font>
+                            </Label>
+                            <Label fx:id="chosenServicesAmountLabel" layoutX="20.0" layoutY="41.0" text="Ilość wybranych usług: x">
+                                <font>
+                                    <Font size="13.0" />
+                                </font>
+                            </Label>
+                        </children>
+                    </VBox>
+                </content>
+            </TitledPane>
+            <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <children>
+                    <Button fx:id="cancelButtonServices" maxHeight="40.0" minHeight="40.0" minWidth="60.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Anuluj">
+                        <HBox.margin>
+                            <Insets bottom="5.0" left="5.0" right="10.0" top="5.0" />
+                        </HBox.margin>
+                    </Button>
+                    <Button fx:id="nextButtonServices" maxHeight="40.0" minHeight="40.0" minWidth="50.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Dalej &gt;">
+                        <HBox.margin>
+                            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                        </HBox.margin>
+                    </Button>
+                </children>
+            </HBox>
+        </children>
+    </GridPane>
+</children>
+</AnchorPane>

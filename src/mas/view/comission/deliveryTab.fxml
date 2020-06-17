@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="mas.controller.DeliveryTab" minHeight="0.0" minWidth="0.0">
+<children>
+    <GridPane hgap="10.0" prefHeight="536.0" prefWidth="800.0" vgap="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="200.0" prefHeight="520.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+        <children>
+            <TitledPane animated="false" collapsible="false" prefHeight="479.0" prefWidth="894.0" text="Wprowadź dane dostawy" GridPane.valignment="TOP">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0">
+                        <children>
+                            <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <children>
+                                    <RadioButton mnemonicParsing="false" selected="true" text="Chcę aby dostarczono mi auto pod podany adres">
+                                        <VBox.margin>
+                                            <Insets bottom="10.0" />
+                                        </VBox.margin>
+                                        <toggleGroup>
+                                            <ToggleGroup fx:id="DeliveryGroup" />
+                                        </toggleGroup>
+                                    </RadioButton>
+                                    <GridPane hgap="5.0" prefWidth="300.0" vgap="5.0">
+                                        <columnConstraints>
+                                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="430.0" minWidth="10.0" prefWidth="65.00000762939453" />
+                                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="741.0" minWidth="10.0" prefWidth="234.99999237060547" />
+                                        </columnConstraints>
+                                        <rowConstraints>
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        </rowConstraints>
+                                        <children>
+                                            <Label text="Miasto" />
+                                            <Label text="Ulica" GridPane.rowIndex="1" />
+                                            <Label text="Nr domu" GridPane.rowIndex="2" />
+                                            <TextField promptText="Warszawa" GridPane.columnIndex="1" />
+                                            <TextField promptText="Długa" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                            <TextField maxHeight="25.0" minHeight="25.0" promptText="12/45" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                        </children>
+                                        <padding>
+                                            <Insets bottom="10.0" />
+                                        </padding>
+                                    </GridPane>
+                                    <RadioButton mnemonicParsing="false" text="Odbiorę auto osobiście" toggleGroup="$DeliveryGroup">
+                                        <VBox.margin>
+                                            <Insets bottom="10.0" />
+                                        </VBox.margin>
+                                    </RadioButton>
+                                </children>
+                            </VBox>
+                        </children></AnchorPane>
+                </content>
+                <GridPane.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                </GridPane.margin>
+            </TitledPane>
+            <GridPane GridPane.rowIndex="1">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints maxHeight="1.7976931348623157E308" minHeight="50.0" prefHeight="60.0" vgrow="SOMETIMES" />
+                </rowConstraints>
+                <children>
+                    <Button minHeight="40.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="&lt; Cofnij">
+                        <GridPane.margin>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </GridPane.margin>
+                    </Button>
+                    <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <Button maxHeight="40.0" minHeight="40.0" minWidth="60.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Anuluj">
+                            <HBox.margin>
+                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                            </HBox.margin>
+                        </Button>
+                        <Button maxHeight="40.0" minHeight="40.0" minWidth="60.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Dalej &gt;">
+                            <HBox.margin>
+                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                            </HBox.margin>
+                        </Button>
+                    </HBox>
+                </children>
+            </GridPane>
+        </children>
+    </GridPane>
+</children>
+</AnchorPane>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:controller="mas.controller.AddCommission" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="300.0" minWidth="400.0" prefHeight="594.0" prefWidth="914.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TabPane prefHeight="518.0" prefWidth="914.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <tabs>
+          <Tab text="1) Usługi">
+            <content>
+                <fx:include fx:id="servicesTab" source="servicesTab.fxml"/>
+            </content>
+          </Tab>
+          <Tab text="2) Dane dostawy">
+            <content>
+                <fx:include fx:id="deliveryTab" source="deliveryTab.fxml"/>
+            </content>
+          </Tab>
+            <Tab text="3) Potwierdzenie">
+                <fx:include fx:id="summaryTab" source="summaryTab.fxml"/>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
