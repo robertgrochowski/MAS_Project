@@ -1,5 +1,6 @@
 package mas.controller;
 
+import com.sun.istack.internal.NotNull;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -18,23 +19,19 @@ import java.util.function.Predicate;
 
 public class ServicesTab implements Initializable {
 
+    private FilteredList<FilterColumnComboItem> filteredComboboxList;
+
     private static class FilterColumnComboItem {
-        private Predicate<Service> predicate;
         private TableColumn column;
         private Class columnClass;
 
-        public FilterColumnComboItem(TableColumn column, Class columnClass, Predicate<Service> predicate) {
-            this.predicate = predicate;
+        public FilterColumnComboItem(@NotNull TableColumn column, Class columnClass) {
             this.columnClass = columnClass;
             this.column = column;
         }
 
         public Class getColumnClass() {
             return columnClass;
-        }
-
-        public Predicate<Service> getPredicate() {
-            return predicate;
         }
 
         public TableColumn getColumn() {
@@ -108,11 +105,11 @@ public class ServicesTab implements Initializable {
 
     public ServicesTab() throws Exception {
         CarPart part1 = new CarPart("Olej silnikowy", 200, Duration.ofMinutes(20));
-        CarPart part2 = new CarPart("Skrzynia biegów", 600, Duration.ofMinutes(20));
-        CarPart part3 = new CarPart("Żarówki mijania (2x)", 200, Duration.ofMinutes(20));
-        CarPart part4 = new CarPart("Żarówki drogowe (2x)", 200, Duration.ofMinutes(20));
-        CarPart part5 = new CarPart("Układ wspomagania", 400, Duration.ofMinutes(20));
-        CarPart part6 = new CarPart("Pasek rozrządu", 80, Duration.ofMinutes(20));
+        CarPart part2 = new CarPart("Skrzynia biegów", 600, Duration.ofHours(3));
+        CarPart part3 = new CarPart("Żarówki mijania (2x)", 200, Duration.ofMinutes(30));
+        CarPart part4 = new CarPart("Żarówki drogowe (2x)", 200, Duration.ofMinutes(30));
+        CarPart part5 = new CarPart("Układ wspomagania", 400, Duration.ofHours(3));
+        CarPart part6 = new CarPart("Pasek rozrządu", 80, Duration.ofHours(1));
         allServices.add(new TechnicalRepair("RDL", 50, "Wymiana żarówek świateł mijania", Arrays.asList(part3)));
         allServices.add(new TechnicalRepair("RBL", 50, "Wymiana żarówek świateł drogowych", Arrays.asList(part4)));
         allServices.add(new TechnicalRepair("RPS", 300, "Wymiana układu wspomagania", Arrays.asList(part5)));
@@ -162,7 +159,7 @@ public class ServicesTab implements Initializable {
                     .reduce(Duration.ZERO, Duration::plus);
 
             totalPriceLabel.setText(String.format(TOTAL_PRICE_FORMAT, totalPrice));
-            estimatedLeadTimeLabel.setText(String.format(ESTIMATED_REALIZATION_FORMAT, totalDuration.toHours(), totalDuration.toMinutes()));
+            estimatedLeadTimeLabel.setText(String.format(ESTIMATED_REALIZATION_FORMAT, totalDuration.toHours(), totalDuration.minusHours(totalDuration.toHours()).toMinutes()));
             chosenServicesAmountLabel.setText(String.format(CHOSEN_SERVICES_FORMAT, cart.size()));
         });
 
@@ -173,7 +170,6 @@ public class ServicesTab implements Initializable {
     }
 
     private void refreshServicesTable(){
-        //allServicesModel.clear();
         allServicesModel.setPredicate(e-> ( e.getClass() == filteredClass &&  !cart.contains(e)));
     }
 
@@ -189,6 +185,7 @@ public class ServicesTab implements Initializable {
         if(filteredClass == TechnicalRepair.class)
             technicalRepairColumns.forEach(tableColumn -> tableColumn.setVisible(true));
 
+        filteredComboboxList.setPredicate(fc->fc.getColumnClass().isAssignableFrom(filteredClass));
         refreshServicesTable();
     }
 
@@ -276,48 +273,42 @@ public class ServicesTab implements Initializable {
             }
         });
 
-        refreshServicesTable();
+
 
         // Filters:
 
         // Add all services to model
         // Filtrowalne kolumny: nr kat, opis, wielkosc opon, wielkosc auta, typ czyszczenia
         List<FilterColumnComboItem> filterColumnComboItems = new ArrayList<>();
-        filterColumnComboItems.add(new FilterColumnComboItem(catalogueNumberCol, Service.class,
-                s -> s.getCatalogueNumber().contains(filterValueTextField.getText())));
+        filterColumnComboItems.add(new FilterColumnComboItem(catalogueNumberCol, Service.class));
+        filterColumnComboItems.add(new FilterColumnComboItem(descriptionCol, TechnicalRepair.class));
+        filterColumnComboItems.add(new FilterColumnComboItem(tireSizeCol, TiresSwap.class));
+        filterColumnComboItems.add(new FilterColumnComboItem(tireManYearCol, TiresSwap.class));
+        filterColumnComboItems.add(new FilterColumnComboItem(cleaningTypeCol, Cleaning.class));
+        filterColumnComboItems.add(new FilterColumnComboItem(carSizeCol, Cleaning.class));
 
-        filterColumnComboItems.add(new FilterColumnComboItem(descriptionCol, TechnicalRepair.class,
-                s -> ((TechnicalRepair) s).getDescription().contains(filterValueTextField.getText())));
-
-        filterColumnComboItems.add(new FilterColumnComboItem(tireSizeCol, TechnicalRepair.class,
-                s -> ((TiresSwap) s).getSize().toString().contains(filterValueTextField.getText())));
-        filterColumnComboItems.add(new FilterColumnComboItem(tireManYearCol, TiresSwap.class,
-                s -> ((TiresSwap) s).getYearOfManufacture().toString().contains(filterValueTextField.getText())));
-        filterColumnComboItems.add(new FilterColumnComboItem(cleaningTypeCol, Cleaning.class,
-                s -> Localization.getLocalizedStringType(((Cleaning) s).getType()).contains(filterValueTextField.getText())));
-        filterColumnComboItems.add(new FilterColumnComboItem(carSizeCol, Cleaning.class,
-                s-> ((Cleaning) s).getCarSize().toString().contains(filterValueTextField.getText())));
-
-        filterColumnComboBox.setItems(new FilteredList<>(FXCollections.observableArrayList(filterColumnComboItems),
-                fc -> fc.columnClass.isAssignableFrom(filteredClass)));
-
+        filteredComboboxList = new FilteredList<>(FXCollections.observableArrayList(filterColumnComboItems));
+        filterColumnComboBox.setItems(filteredComboboxList);
 
         filterValueTextField.textProperty().addListener(((observable, oldValue, newValue) -> {
             FilterColumnComboItem item = filterColumnComboBox.getValue();
-            if(item == null){
-                columnFilterPredicate = s -> true;
-            };
 
-            //filterColumnComboItems
-            columnFilterPredicate = item.getPredicate();
+            allServicesModel.setPredicate(s->
+            {
+                if(item == null || newValue.isEmpty())
+                    columnFilterPredicate = a -> true;
+                else
+                    columnFilterPredicate = service -> s.getCatalogueNumber().contains(newValue);//todo
 
-            allServicesModel.setPredicate(s-> {
                 System.out.println(s.toString());
                 System.out.println("col pred: " + columnFilterPredicate.test(s));
                 System.out.println("servicesModelTypePredicate pred: " + servicesModelTypePredicate.test(s));
                 System.out.println("---");
                 return servicesModelTypePredicate.test(s) && columnFilterPredicate.test(s); });
         }));
+
+        onChangedServiceTypeFilter();
+        refreshServicesTable();
     }
 
     void onAddToCartClicked(Service service)
@@ -340,5 +331,6 @@ public class ServicesTab implements Initializable {
             }
         }
         cart.add(service);
+        refreshServicesTable();
     }
 }
