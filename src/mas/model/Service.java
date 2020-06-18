@@ -9,11 +9,11 @@ public abstract class Service {
 
     private static Map<String, Service> services = new HashMap<>();
     private String catalogueNumber;
-    private String description;
     private double basePrice;
+    private boolean canHaveOnlyOneInCart;
 
-    public Service(String catalogueNumber, String description, double basePrice) throws Exception {
-        setDescription(description);
+    public Service(String catalogueNumber, double basePrice) throws Exception {
+        canHaveOnlyOneInCart = false;
         setBasePrice(basePrice);
         setCatalogueNumber(catalogueNumber);
     }
@@ -22,9 +22,6 @@ public abstract class Service {
     public String getCatalogueNumber() {
         return catalogueNumber;
     }
-    public String getDescription() {
-        return description;
-    }
     public double getBasePrice() {
         return basePrice;
     }
@@ -32,21 +29,22 @@ public abstract class Service {
         return services.get(name);
     }
 
+    public boolean canHaveOnlyOneInCart() {
+        return canHaveOnlyOneInCart;
+    }
+
+    protected void setCanHaveOnlyOneInCart(boolean can)
+    {
+        canHaveOnlyOneInCart = can;
+    }
+
     // UNIQUE
     public void setCatalogueNumber(String catalogueNumber) throws Exception {
         if(services.containsKey(catalogueNumber))
-            throw new Exception("The object with given catalogue nubmber already exists! (id=" + catalogueNumber + ")");
+            throw new Exception("The object with given catalogue number already exists! (id=" + catalogueNumber + ")");
 
         services.put(catalogueNumber, this);
         this.catalogueNumber = catalogueNumber;
-    }
-
-    public void setDescription(String description) throws Exception {
-        String trimmed = description.trim();
-        if(trimmed.length() < 1 || trimmed.length() > MAX_TRIMMED_LENGTH)
-            throw new Exception("Trimmed description should have from 0 to "+MAX_TRIMMED_LENGTH+" characters! (trimmed length="+trimmed.length()+")");
-
-        this.description = description;
     }
 
     public void setBasePrice(double basePrice) throws Exception {
@@ -68,7 +66,6 @@ public abstract class Service {
     public String toString() {
         return "Usluga{" +
                 "numerKatalogowy='" + getCatalogueNumber() + '\'' +
-                ", opis='" + getDescription() + '\'' +
                 ", cena=" + getBasePrice() +
                 '}';
     }

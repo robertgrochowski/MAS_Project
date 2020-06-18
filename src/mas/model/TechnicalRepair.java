@@ -2,17 +2,17 @@ package mas.model;
 
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class TechnicalRepair extends Service
 {
     private List<CarPart> carParts = new ArrayList<>();
+    private String description;
 
-    public TechnicalRepair(String catalogueNumber, String description, double price, List<CarPart> carParts) throws Exception {
-        super(catalogueNumber, description, price);
+    public TechnicalRepair(String catalogueNumber, double price, String description, List<CarPart> carParts) throws Exception {
+        super(catalogueNumber, price);
         setCarParts(carParts);
+        this.description = description;
     }
 
     public List<CarPart> getCarParts() {
@@ -21,6 +21,10 @@ public class TechnicalRepair extends Service
 
     private void setCarParts(List<CarPart> carParts) {
         this.carParts = carParts;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     @Override
@@ -32,7 +36,9 @@ public class TechnicalRepair extends Service
 
     @Override
     public double getPrice() {
-        return getBasePrice()+200;//todo
+        return getBasePrice() + getCarParts().stream()
+                .map(CarPart::getCost)
+                .reduce(0d, Double::sum);
     }
 
     @Override
