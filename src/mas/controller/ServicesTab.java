@@ -20,6 +20,8 @@ import java.util.function.Predicate;
 public class ServicesTab implements Initializable {
 
     private FilteredList<FilterColumnComboItem> filteredComboboxList;
+    private static ServicesTab instance; //todo
+    private PageNavigationCallback pageNavigationCallback;
 
     private static class FilterColumnComboItem {
         private TableColumn column;
@@ -45,8 +47,8 @@ public class ServicesTab implements Initializable {
     }
     private static final String CURRENCY_FORMAT = "%.2fzł";
     // TAB: Services
-    @FXML Button nextButtonServices;
-    @FXML Button cancelButtonServices;
+    @FXML Button nextButton;
+    @FXML Button cancelButton;
 
     /// Panel: Filters
     @FXML RadioButton technicalRepairTypeRadio;
@@ -104,6 +106,7 @@ public class ServicesTab implements Initializable {
     private final Predicate<Service> servicesModelTypePredicate;
 
     public ServicesTab() throws Exception {
+        instance = this;
         CarPart part1 = new CarPart("Olej silnikowy", 200, Duration.ofMinutes(20));
         CarPart part2 = new CarPart("Skrzynia biegów", 600, Duration.ofHours(3));
         CarPart part3 = new CarPart("Żarówki mijania (2x)", 200, Duration.ofMinutes(30));
@@ -309,6 +312,19 @@ public class ServicesTab implements Initializable {
 
         onChangedServiceTypeFilter();
         refreshServicesTable();
+
+        // Navigation buttons
+        nextButton.setOnAction(actionEvent -> {
+            if(cart.size() < 1) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Błąd");
+                alert.setHeaderText("Twój koszyk jest pusty");
+                alert.setContentText("Aby przejść dalej wybierz co najmniej jedną usługę z listy");
+                alert.show();
+            }
+            else pageNavigationCallback.onNextPage();
+        });
+        cancelButton.setOnAction(actionEvent -> pageNavigationCallback.onCancel());
     }
 
     void onAddToCartClicked(Service service)
@@ -332,5 +348,18 @@ public class ServicesTab implements Initializable {
         }
         cart.add(service);
         refreshServicesTable();
+    }
+
+    public static ServicesTab getInstance() {
+        return instance;
+    }
+
+    public ObservableList<Service> getCart() {
+        return cart;
+    }
+
+    public void setPageNavigationCallback(PageNavigationCallback callback)
+    {
+        this.pageNavigationCallback = callback;
     }
 }
