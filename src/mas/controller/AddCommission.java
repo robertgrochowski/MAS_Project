@@ -58,11 +58,6 @@ public class AddCommission implements Initializable, PageNavigationCallback {
 
     @Override
     public void onNextPage() {
-        if(currentTabIndex + 1 >= tabsOrder.length)
-        {
-            //this should never happen
-            return;
-        }
         Tab switchToTab = tabsOrder[++currentTabIndex];
         switchToTab.setDisable(false);
         tabPane.getSelectionModel().select(switchToTab);
@@ -70,11 +65,6 @@ public class AddCommission implements Initializable, PageNavigationCallback {
 
     @Override
     public void onPreviousPage() {
-        if(currentTabIndex - 1 < 0)
-        {
-            //this should never happen
-            return;
-        }
         tabsOrder[currentTabIndex].setDisable(true);
         Tab switchToTab = tabsOrder[--currentTabIndex];
         tabPane.getSelectionModel().select(switchToTab);
@@ -99,7 +89,8 @@ public class AddCommission implements Initializable, PageNavigationCallback {
 
     @Override
     public void onConfirmOrder() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "");
+        ButtonType ok = new ButtonType("OK");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "", ok);
         alert.setTitle("Zgłoszenie przyjęte");
         alert.setHeaderText("Twoje zgłoszenie zostało przyjęte!");
         alert.setContentText("Dziękujemy za wybór naszej firmy.");

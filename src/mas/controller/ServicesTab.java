@@ -9,6 +9,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import mas.model.*;
 
 import java.net.URL;
@@ -45,7 +46,7 @@ public class ServicesTab implements Initializable {
             return getColumn().getText();
         }
     }
-    private static final String CURRENCY_FORMAT = "%.2fzł";
+
     // TAB: Services
     @FXML Button nextButton;
     @FXML Button cancelButton;
@@ -70,18 +71,23 @@ public class ServicesTab implements Initializable {
     @FXML TableColumn<Service, String> priceCol;
     @FXML TableColumn<Service, String> realizationTimeCol;
     @FXML TableColumn<Service, Service> selectCol;
+
     // Technical repair columns
     @FXML TableColumn<TechnicalRepair, String> descriptionCol;
+    @FXML TableColumn<TechnicalRepair, TechnicalRepair> showPartsCol;
     private List<TableColumn> technicalRepairColumns;
+
     // Tires swap columns
     @FXML TableColumn<TiresSwap, String> tireSizeCol;
     @FXML TableColumn<TiresSwap, Integer> tireManYearCol;
     @FXML TableColumn<TiresSwap, String> tireTypeCol;
     private List<TableColumn> tiresColumns;
+
     // Cleaning columns
     @FXML TableColumn<Cleaning, String> cleaningTypeCol;
     @FXML TableColumn<Cleaning, String> carSizeCol;
     private List<TableColumn> cleaningColumns;
+
     ///Table: cart
     @FXML TableView<Service> tableCart;
     @FXML TableColumn<Service, String> catalogueNumberCartCol;
@@ -91,8 +97,9 @@ public class ServicesTab implements Initializable {
     @FXML TableColumn<Service, Service> deleteFromCartCol;
 
     ///Panel: Summary
+    //todo: extract to localization
     private final static String TOTAL_PRICE_FORMAT = "SUMA: %.2f PLN";
-    private final static String ESTIMATED_REALIZATION_FORMAT = "Szacowany czas realizacji: %dh %dmin";
+    private final static String ESTIMATED_REALIZATION_FORMAT = "Szacowany czas realizacji: "+Localization.DURATION_FORMAT;
     private final static String CHOSEN_SERVICES_FORMAT = "Ilość wybranych usług: %d";
     @FXML Label totalPriceLabel;
     @FXML Label estimatedLeadTimeLabel;
@@ -115,6 +122,7 @@ public class ServicesTab implements Initializable {
         CarPart part6 = new CarPart("Pasek rozrządu", 80, Duration.ofHours(1));
         allServices.add(new TechnicalRepair("RDL", 50, "Wymiana żarówek świateł mijania", Arrays.asList(part3)));
         allServices.add(new TechnicalRepair("RBL", 50, "Wymiana żarówek świateł drogowych", Arrays.asList(part4)));
+        allServices.add(new TechnicalRepair("RFL", 50, "Wymiana świateł przednich", Arrays.asList(part4, part3)));
         allServices.add(new TechnicalRepair("RPS", 300, "Wymiana układu wspomagania", Arrays.asList(part5)));
         allServices.add(new TechnicalRepair("RTB", 200, "Wymiana pasku rozrządu", Arrays.asList(part6)));
         allServices.add(new TechnicalRepair("RGB", 200, "Wymiana skrzyni biegów", Arrays.asList(part2)));
@@ -194,7 +202,7 @@ public class ServicesTab implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        technicalRepairColumns = Collections.singletonList(descriptionCol);
+        technicalRepairColumns = Arrays.asList(descriptionCol, showPartsCol);
         tiresColumns = Arrays.asList(tireSizeCol, tireManYearCol, tireTypeCol);
         cleaningColumns = Arrays.asList(cleaningTypeCol, carSizeCol);
 
@@ -221,7 +229,7 @@ public class ServicesTab implements Initializable {
 
         // Common columns
         catalogueNumberCol.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(cell.getValue().getCatalogueNumber()));
-        priceCol.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(String.format(CURRENCY_FORMAT, cell.getValue().getPrice())));
+        priceCol.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(String.format(Localization.CURRENCY_FORMAT, cell.getValue().getPrice())));
         realizationTimeCol.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(cell.getValue().getEstimatedRealizationTime().toMinutes() + "min"));
         selectCol.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(cell.getValue()));
 
@@ -240,9 +248,24 @@ public class ServicesTab implements Initializable {
         // Cart columns
         catalogueNumberCartCol.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(cell.getValue().getCatalogueNumber()));
         detailsCartCol.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(cell.getValue().toString()));
-        priceCartCol.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(String.format(CURRENCY_FORMAT, cell.getValue().getPrice())));
+        priceCartCol.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(String.format(Localization.CURRENCY_FORMAT, cell.getValue().getPrice())));
         realizationTimeCartCol.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(cell.getValue().getEstimatedRealizationTime().toMinutes() + "min"));
         deleteFromCartCol.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(cell.getValue()));
+        showPartsCol.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(cell.getValue()));
+        showPartsCol.setCellFactory(p -> new TableCell<TechnicalRepair, TechnicalRepair>() {
+            private final Button selectButton = new Button("Pokaż");
+            @Override
+            protected void updateItem(TechnicalRepair repair, boolean empty) {
+                super.updateItem(repair, empty);
+                if(repair == null) {
+                    setGraphic(null);
+                    return;
+                }
+
+                setGraphic(selectButton);
+                selectButton.setOnAction(a-> CarPartDialog.open(getStage(), repair));
+            }
+        });
 
         selectCol.setCellFactory(p -> new TableCell<Service, Service>() {
             private final Button selectButton = new Button("Wybierz");
@@ -361,5 +384,9 @@ public class ServicesTab implements Initializable {
     public void setPageNavigationCallback(PageNavigationCallback callback)
     {
         this.pageNavigationCallback = callback;
+    }
+
+    private Stage getStage(){
+        return (Stage) chooseServicesTable.getScene().getWindow();
     }
 }

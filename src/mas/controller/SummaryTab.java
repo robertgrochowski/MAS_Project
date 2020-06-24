@@ -4,10 +4,7 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import mas.model.DeliveryAddress;
 import mas.model.Service;
 
@@ -26,6 +23,8 @@ public class SummaryTab implements Initializable {
     @FXML Button backButton;
     @FXML Button confirmOrderButton;
 
+    @FXML TitledPane deliveryDetailsPane;
+    @FXML TitledPane deliverySelfCollectionPane;
     @FXML Label cityLabel;
     @FXML Label streetLabel;
     @FXML Label houseNumberLabel;
@@ -74,10 +73,14 @@ public class SummaryTab implements Initializable {
         estimatedLeadTimeLabel.setText(String.format(ESTIMATED_REALIZATION_FORMAT, totalDuration.toHours(), totalDuration.minusHours(totalDuration.toHours()).toMinutes()));
         chosenServicesAmountLabel.setText(String.format(CHOSEN_SERVICES_FORMAT, this.cart.size()));
 
-        cityLabel.setText(deliveryAddress.getCity());
-        streetLabel.setText(deliveryAddress.getStreet());
-        houseNumberLabel.setText(deliveryAddress.getHomeNumber());
-        flatNumberLabel.setText(deliveryAddress.getFlatNumber() == null ? "-" : deliveryAddress.getFlatNumber());
+        if(deliveryAddress != null) {
+            cityLabel.setText(deliveryAddress.getCity());
+            streetLabel.setText(deliveryAddress.getStreet());
+            houseNumberLabel.setText(deliveryAddress.getHomeNumber());
+            flatNumberLabel.setText(deliveryAddress.getFlatNumber() == null ? "-" : deliveryAddress.getFlatNumber());
+        }
+        deliveryDetailsPane.setVisible(deliveryAddress != null);
+        deliverySelfCollectionPane.setVisible(deliveryAddress == null);
     }
 
     @Override

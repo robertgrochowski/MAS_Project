@@ -35,6 +35,7 @@
                               <TableColumn fx:id="carSizeCol" minWidth="90.0" prefWidth="75.0" text="Rozmiar auta" visible="false" />
                                     <TableColumn fx:id="realizationTimeCol" maxWidth="1.7976931348623157E308" minWidth="90.0" prefWidth="90.0" text="Czas realizacji" />
                                     <TableColumn fx:id="priceCol" maxWidth="1.7976931348623157E308" minWidth="60.0" prefWidth="53.000030517578125" text="Cena" />
+                              <TableColumn fx:id="showPartsCol" minWidth="70.0" prefWidth="70.0" style="-fx-alignment: CENTER;" text="Części" />
                                     <TableColumn fx:id="selectCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="70.0" style="-fx-alignment: CENTER;" text="Wybierz" />
                                 </columns>
                                 <columnResizePolicy>
@@ -137,17 +138,17 @@
                 <content>
                     <VBox>
                         <children>
-                            <Label fx:id="totalPriceLabel" text="Suma: X PLN">
+                            <Label fx:id="totalPriceLabel" text="Suma: 0 PLN">
                                 <font>
                                     <Font size="15.0" />
                                 </font>
                             </Label>
-                            <Label fx:id="estimatedLeadTimeLabel" layoutX="20.0" layoutY="20.0" text="Szacowany czas realizacji: x h">
+                            <Label fx:id="estimatedLeadTimeLabel" layoutX="20.0" layoutY="20.0" text="Szacowany czas realizacji: 0 min">
                                 <font>
                                     <Font size="13.0" />
                                 </font>
                             </Label>
-                            <Label fx:id="chosenServicesAmountLabel" layoutX="20.0" layoutY="41.0" text="Ilość wybranych usług: x">
+                            <Label fx:id="chosenServicesAmountLabel" layoutX="20.0" layoutY="41.0" text="Ilość wybranych usług: 0">
                                 <font>
                                     <Font size="13.0" />
                                 </font>

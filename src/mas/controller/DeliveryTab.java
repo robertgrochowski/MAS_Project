@@ -60,15 +60,19 @@ public class DeliveryTab implements Initializable {
                     streetTextField.clear();
                     houseNumberTextfield.clear();
                     deliveryDetailsGridPane.setDisable(true);
+                    address = null;
                 }
             });
 
         nextButton.setOnAction(actionEvent -> {
-            if(validate()) {
+            if(deliverToMeRadio.isSelected() && validate()) {
                 address = new DeliveryAddress(cityTextField.getText().trim(),
                         streetTextField.getText().trim(),
                         houseNumberTextfield.getText().trim(),
-                        flatNumberTextField.getText().length() > 0 ? flatNumberTextField.getText().trim() : null);
+                        flatNumberTextField.getText().trim().length() > 0 ? flatNumberTextField.getText().trim() : null);
+                pageNavigationCallback.onNextPage();
+            }
+            else if(dontDeliverRadio.isSelected()) {
                 pageNavigationCallback.onNextPage();
             }
         });

@@ -6,6 +6,8 @@ import java.util.Map;
 
 public class Localization {
 
+    public static final String CURRENCY_FORMAT = "%.2fzł";
+    public static final String DURATION_FORMAT = "%dh %dmin";
     public static Map<Locale, Map<TiresSwap.SeasonType, String>> tiresType = new HashMap<>();
     public static Map<Locale, Map<Cleaning.Type, String>> cleaningType = new HashMap<>();
     public static Locale appLocale;
