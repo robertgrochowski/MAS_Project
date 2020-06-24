@@ -1,0 +1,6 @@
+package mas.model.enums;
+
+public enum TicketStatus {
+    SUBMITTED, ACCEPTED, CANCELED, IN_PROGRESS, WAITING_FOR_DELIVERER,
+    IN_TRANSIT, COMPLETED, READY_TO_PICKUP, FINISHED
+}

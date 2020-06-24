@@ -6,10 +6,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
+import mas.Main;
 import mas.model.Service;
+import mas.model.Ticket;
+import mas.model.enums.TicketStatus;
+import org.hibernate.Session;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -89,13 +94,40 @@ public class AddCommission implements Initializable, PageNavigationCallback {
 
     @Override
     public void onConfirmOrder() {
-        ButtonType ok = new ButtonType("OK");
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "", ok);
-        alert.setTitle("Zgłoszenie przyjęte");
-        alert.setHeaderText("Twoje zgłoszenie zostało przyjęte!");
-        alert.setContentText("Dziękujemy za wybór naszej firmy.");
-        alert.showAndWait();
-        Platform.exit();
-        System.exit(0);
+        List<Service> servicesInOrder = servicesTabController.getCart();
+        Ticket ticket = new Ticket(LocalDate.now(), null, deliveryTabController.getDeliveryAddress());
+
+        // Add all services to ticket
+        servicesInOrder.forEach(ticket::addService);
+
+        // Set status
+        ticket.setStatus(TicketStatus.SUBMITTED);
+
+        // Save
+        try{
+            Session session = Main.getSessionFactory().openSession();
+            session.beginTransaction();
+            session.save(ticket);
+            session.getTransaction().commit();
+            session.close();
+
+            ButtonType ok = new ButtonType("OK");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "", ok);
+            alert.setTitle("Zgłoszenie przyjęte");
+            alert.setHeaderText("Twoje zgłoszenie zostało przyjęte!");
+            alert.setContentText("Dziękujemy za wybór naszej firmy.");
+            alert.showAndWait();
+            Platform.exit();
+            System.exit(0);
+        }
+        catch (Exception e) {
+            ButtonType ok = new ButtonType("OK");
+            Alert alert = new Alert(Alert.AlertType.ERROR, "", ok);
+            alert.setTitle("Wystąpił błąd!");
+            alert.setHeaderText("Wystąpił błąd podczas składania zamówienia.");
+            alert.setContentText("Błąd: "+e.toString());
+            alert.showAndWait();
+            e.printStackTrace();
+        }
     }
 }

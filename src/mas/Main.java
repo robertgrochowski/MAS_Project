@@ -38,23 +38,33 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        seedDatabase();
 
-        /*final Session session = getSession();
-        try {
-            System.out.println("querying all the managed entities...");
-            final Metamodel metamodel = session.getSessionFactory().getMetamodel();
-            for (EntityType<?> entityType : metamodel.getEntities()) {
-                final String entityName = entityType.getName();
-                final Query query = session.createQuery("from " + entityName);
-                System.out.println("executing: " + query.getQueryString());
-                for (Object o : query.list()) {
-                    System.out.println("  " + o);
-                }
-            }
-        } finally {
-            session.close();
-        }*/
+        Session session = getSession();
+        List<Service> services = session.createQuery("from Service", Service.class).list();
+
+        if(services.size() < 1)
+        {
+            seedDatabase();
+            System.out.println("Seeding database!");
+        }
+
+        // Load extents from DB
+        // Those extents are already filled because we seeded them above
+        // Let's clear them and load from DB (task requirements)
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        Service.getExtent().clear();
+        TechnicalRepair.getExtent().clear();
+        Cleaning.getExtent().clear();
+        TiresSwap.getExtent().clear();
+
+        session.createQuery("from TechnicalRepair", TechnicalRepair.class).list();
+        session.createQuery("from CarPart", CarPart.class).list();
+        session.createQuery("from Cleaning", Cleaning.class).list();
+        session.createQuery("from TiresSwap", TiresSwap.class).list();
+        session.getTransaction().commit();
+        session.close();
 
         Parent root = FXMLLoader.load(getClass().getResource("view/comission/addCommissionView.fxml"));
         primaryStage.setTitle("Serwis samochodowy");
@@ -141,25 +151,6 @@ public class Main extends Application {
         for(TiresSwap tireSwap : tiresSwaps) {
             session.save(tireSwap);
         }
-        session.getTransaction().commit();
-        session.close();
-
-        // Load extents from DB
-        // Those extents are already filled because we seeded them above
-        // Let's clear them and load from DB (task requirements)
-        session = sessionFactory.openSession();
-        session.beginTransaction();
-
-        //TODO: delivery address?
-        Service.getExtent().clear();
-        TechnicalRepair.getExtent().clear();
-        Cleaning.getExtent().clear();
-        TiresSwap.getExtent().clear();
-
-        session.createQuery("from TechnicalRepair", TechnicalRepair.class).list();
-        session.createQuery("from CarPart", CarPart.class).list();
-        session.createQuery("from Cleaning", Cleaning.class).list();
-        session.createQuery("from TiresSwap", TiresSwap.class).list();
         session.getTransaction().commit();
         session.close();
     }

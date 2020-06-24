@@ -66,13 +66,13 @@ public abstract class Service {
         return serviceExtent;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public List<Ticket> getTickets() {
         return tickets;
     }
 
     // Setters
-    protected void setHaveOnlyOneInCart(boolean can) {
+    public void setHaveOnlyOneInCart(boolean can) {
         canHaveOnlyOneInCart = can;
     }
 
@@ -80,7 +80,7 @@ public abstract class Service {
         this.id = id;
     }
 
-    public void setTickets(List<Ticket> tickets) {
+    private void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
 
@@ -113,5 +113,13 @@ public abstract class Service {
                 "numerKatalogowy='" + getCatalogueNumber() + '\'' +
                 ", cena=" + getBasePrice() +
                 '}';
+    }
+
+    public void addTicket(Ticket ticket) {
+        if (!getTickets().contains(ticket)) {
+            getTickets().add(ticket);
+
+            ticket.addService(this);
+        }
     }
 }

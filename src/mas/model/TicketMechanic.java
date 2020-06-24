@@ -27,12 +27,12 @@ public class TicketMechanic {
         return id;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public Mechanic getMechanic() {
         return mechanic;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public Ticket getTicket() {
         return ticket;
     }

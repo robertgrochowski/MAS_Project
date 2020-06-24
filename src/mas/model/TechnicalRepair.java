@@ -22,7 +22,7 @@ public class TechnicalRepair extends Service
         technicalRepairExtent.add(this);
     }
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public List<CarPart> getCarParts() {
         return carParts;
     }

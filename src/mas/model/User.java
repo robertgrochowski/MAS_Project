@@ -2,10 +2,7 @@ package mas.model;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 //CAŁOŚĆ
@@ -66,12 +63,12 @@ public class User {
         return email;
     }
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     public Worker getWorker() {
         return worker;
     }
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     public Client getClient() {
         return client;
     }

@@ -1,5 +1,6 @@
 package mas.model;
 
+import mas.model.enums.TicketStatus;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -22,17 +23,14 @@ public class Ticket {
     private Client client;
     private DeliveryAddress deliveryAddress;
     private Opinion opinion;
+    private TicketStatus status;
 
     public Ticket(){}
 
-    public Ticket(String description, LocalDate dateCreated) {
-        this(description, dateCreated, null);
-    }
-
-    public Ticket(String description, LocalDate dateCreated, LocalDate dateFinished) {
-        this.description = description;
+    public Ticket(LocalDate dateCreated, LocalDate dateFinished, DeliveryAddress address) {
         this.dateCreated = dateCreated;
         this.dateFinished = dateFinished;
+        setDeliveryAddress(address);
     }
 
     @Id
@@ -54,22 +52,22 @@ public class Ticket {
         return dateFinished;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public List<TicketMechanic> getTicketMechanics() {
         return ticketMechanics;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public Deliverer getDeliverer(){
         return deliverer;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public Client getClient() {
         return client;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public List<Service> getServices() {
         return services;
     }
@@ -79,9 +77,18 @@ public class Ticket {
         return deliveryAddress;
     }
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     public Opinion getOpinion() {
         return opinion;
+    }
+
+    @Enumerated
+    public TicketStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TicketStatus status) {
+        this.status = status;
     }
 
     public void setOpinion(Opinion opinion) throws Exception {
@@ -113,20 +120,31 @@ public class Ticket {
 
     public void setDeliverer(Deliverer deliverer) {
         this.deliverer = deliverer;
-        deliverer.addTicket(this);
+        if(deliverer != null)
+            deliverer.addTicket(this);
     }
 
     public void setClient(Client client) {
         this.client = client;
-        client.addTicket(this);
+        if(client != null)
+            client.addTicket(this);
     }
 
-    public void setServices(List<Service> services) {
+    private void setServices(List<Service> services) {
         this.services = services;
     }
 
-    public void setTicketMechanics(List<TicketMechanic> ticketMechanics) {
+    private void setTicketMechanics(List<TicketMechanic> ticketMechanics) {
         this.ticketMechanics = ticketMechanics;
+    }
+
+    public void addService(Service service) {
+        if(!getServices().contains(service))
+        {
+            getServices().add(service);
+
+            service.addTicket(this);
+        }
     }
 
     public void addMechanic(TicketMechanic mechanic)

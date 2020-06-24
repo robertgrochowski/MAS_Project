@@ -113,7 +113,7 @@ public class ServicesTab implements Initializable {
 
     public ServicesTab() {
         instance = this;
-
+        //allServices.addAll(Service.getExtent());
         cart.addListener((ListChangeListener<Service>) change -> {
             double totalPrice = cart.stream()
                     .map(Service::getPrice)
@@ -249,11 +249,10 @@ public class ServicesTab implements Initializable {
                 setGraphic(deleteButton);
                 deleteButton.setOnAction(e -> {
                     cart.remove(item);
+                    refreshServicesTable();
                 });
             }
         });
-
-
 
         // Filters:
 
@@ -280,10 +279,6 @@ public class ServicesTab implements Initializable {
                 else
                     columnFilterPredicate = service -> s.getCatalogueNumber().contains(newValue);//todo
 
-                System.out.println(s.toString());
-                System.out.println("col pred: " + columnFilterPredicate.test(s));
-                System.out.println("servicesModelTypePredicate pred: " + servicesModelTypePredicate.test(s));
-                System.out.println("---");
                 return servicesModelTypePredicate.test(s) && columnFilterPredicate.test(s); });
         }));
 
@@ -306,8 +301,6 @@ public class ServicesTab implements Initializable {
 
     void onAddToCartClicked(Service service)
     {
-        System.out.println(service);
-        System.out.println(service.isHaveOnlyOneInCart());
         if(service.isHaveOnlyOneInCart())
         {
             boolean hasAlreadyThisServiceInCart = cart.stream()

@@ -52,7 +52,7 @@ public class CarPart {
         return carPartExtent;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public List<TechnicalRepair> getRepairs() {
         return repairs;
     }

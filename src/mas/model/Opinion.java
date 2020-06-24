@@ -2,10 +2,7 @@ package mas.model;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -49,7 +46,7 @@ public class Opinion
         return comment;
     }
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     public Ticket getTicket() {
         return ticket;
     }

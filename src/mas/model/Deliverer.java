@@ -30,7 +30,7 @@ public class Deliverer extends Worker{
         }
     }
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public List<Ticket> getTickets() {
         return tickets;
     }

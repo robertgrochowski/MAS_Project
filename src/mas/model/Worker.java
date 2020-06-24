@@ -58,7 +58,7 @@ public abstract class Worker {
         return salary;
     }
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     public User getUser() {
         return user;
     }
