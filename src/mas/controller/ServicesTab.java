@@ -113,7 +113,6 @@ public class ServicesTab implements Initializable {
 
     public ServicesTab() {
         instance = this;
-        //allServices.addAll(Service.getExtent());
         cart.addListener((ListChangeListener<Service>) change -> {
             double totalPrice = cart.stream()
                     .map(Service::getPrice)

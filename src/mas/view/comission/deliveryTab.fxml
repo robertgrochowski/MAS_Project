@@ -12,7 +12,7 @@
         </columnConstraints>
         <rowConstraints>
             <RowConstraints maxHeight="1.7976931348623157E308" minHeight="200.0" prefHeight="520.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="60.0" minHeight="60.0" prefHeight="60.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
         </rowConstraints>
         <children>
             <TitledPane animated="false" collapsible="false" prefHeight="479.0" prefWidth="894.0" text="Wprowadź dane dostawy" GridPane.valignment="TOP">

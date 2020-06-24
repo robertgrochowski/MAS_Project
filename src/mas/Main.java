@@ -67,6 +67,8 @@ public class Main extends Application {
         session.close();
 
         Parent root = FXMLLoader.load(getClass().getResource("view/comission/addCommissionView.fxml"));
+        primaryStage.setMinWidth(root.minWidth(-1));
+        primaryStage.setMinHeight(root.minHeight(-1));
         primaryStage.setTitle("Serwis samochodowy");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
