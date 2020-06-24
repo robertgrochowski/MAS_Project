@@ -105,60 +105,14 @@ public class ServicesTab implements Initializable {
     @FXML Label estimatedLeadTimeLabel;
     @FXML Label chosenServicesAmountLabel;
 
-    private final List<Service> allServices = new ArrayList<>();
     private final FilteredList<Service> allServicesModel;
     private final ObservableList<Service> cart = FXCollections.observableArrayList();
     private Class<? extends Service> filteredClass = TechnicalRepair.class;
 
     private final Predicate<Service> servicesModelTypePredicate;
 
-    public ServicesTab() throws Exception {
+    public ServicesTab() {
         instance = this;
-        CarPart part1 = new CarPart("Olej silnikowy", 200, Duration.ofMinutes(20));
-        CarPart part2 = new CarPart("Skrzynia biegów", 600, Duration.ofHours(3));
-        CarPart part3 = new CarPart("Żarówki mijania (2x)", 200, Duration.ofMinutes(30));
-        CarPart part4 = new CarPart("Żarówki drogowe (2x)", 200, Duration.ofMinutes(30));
-        CarPart part5 = new CarPart("Układ wspomagania", 400, Duration.ofHours(3));
-        CarPart part6 = new CarPart("Pasek rozrządu", 80, Duration.ofHours(1));
-        allServices.add(new TechnicalRepair("RDL", 50, "Wymiana żarówek świateł mijania", Arrays.asList(part3)));
-        allServices.add(new TechnicalRepair("RBL", 50, "Wymiana żarówek świateł drogowych", Arrays.asList(part4)));
-        allServices.add(new TechnicalRepair("RFL", 50, "Wymiana świateł przednich", Arrays.asList(part4, part3)));
-        allServices.add(new TechnicalRepair("RPS", 300, "Wymiana układu wspomagania", Arrays.asList(part5)));
-        allServices.add(new TechnicalRepair("RTB", 200, "Wymiana pasku rozrządu", Arrays.asList(part6)));
-        allServices.add(new TechnicalRepair("RGB", 200, "Wymiana skrzyni biegów", Arrays.asList(part2)));
-        allServices.add(new TechnicalRepair("ROR", 100, "Wymiana oleju", Arrays.asList(part1)));
-
-        // Cleanings
-        allServices.add(new Cleaning("CCXS",  Cleaning.CarSize.XS, Cleaning.Type.COMPREHENSIVE));
-        allServices.add(new Cleaning("CCS",  Cleaning.CarSize.S, Cleaning.Type.COMPREHENSIVE));
-        allServices.add(new Cleaning("CCM",  Cleaning.CarSize.M, Cleaning.Type.COMPREHENSIVE));
-        allServices.add(new Cleaning("CCL", Cleaning.CarSize.L, Cleaning.Type.COMPREHENSIVE));
-        allServices.add(new Cleaning("CCXL", Cleaning.CarSize.XL, Cleaning.Type.COMPREHENSIVE));
-        allServices.add(new Cleaning("CIXS",  Cleaning.CarSize.XS, Cleaning.Type.INNER));
-        allServices.add(new Cleaning("CIS",  Cleaning.CarSize.S, Cleaning.Type.INNER));
-        allServices.add(new Cleaning("CIM",  Cleaning.CarSize.M, Cleaning.Type.INNER));
-        allServices.add(new Cleaning("CIL",  Cleaning.CarSize.L, Cleaning.Type.INNER));
-        allServices.add(new Cleaning("CIXL",  Cleaning.CarSize.XL, Cleaning.Type.INNER));
-        allServices.add(new Cleaning("COXS",  Cleaning.CarSize.XS, Cleaning.Type.INNER));
-        allServices.add(new Cleaning("COS",  Cleaning.CarSize.S, Cleaning.Type.INNER));
-        allServices.add(new Cleaning("COM",  Cleaning.CarSize.M, Cleaning.Type.INNER));
-        allServices.add(new Cleaning("COL",  Cleaning.CarSize.L, Cleaning.Type.INNER));
-        allServices.add(new Cleaning("COXL",  Cleaning.CarSize.XL, Cleaning.Type.INNER));
-
-        // Tires swap
-        for(int size = 13; size < 23; size ++)
-        {
-            for (TiresSwap.SeasonType seasonType : TiresSwap.SeasonType.values()) {
-
-                for(int i = 0; i < 5; i++)
-                {
-                    int year = LocalDate.now().getYear()-i;
-                    char seasonCat = seasonType.toString().charAt(0);
-                    String yearCat = Integer.toString(year).substring(2, 4);
-                    allServices.add(new TiresSwap("T"+size+seasonCat+yearCat, seasonType, size, year));
-                }
-            }
-        }
 
         cart.addListener((ListChangeListener<Service>) change -> {
             double totalPrice = cart.stream()
@@ -177,7 +131,7 @@ public class ServicesTab implements Initializable {
         //Filters
         servicesModelTypePredicate = service -> service.getClass() == filteredClass && !cart.contains(service);
         columnFilterPredicate = service -> true; // No filters at start
-        allServicesModel = new FilteredList<>(FXCollections.observableArrayList(allServices), servicesModelTypePredicate);
+        allServicesModel = new FilteredList<>(FXCollections.observableArrayList(Service.getExtent()), servicesModelTypePredicate);
     }
 
     private void refreshServicesTable(){

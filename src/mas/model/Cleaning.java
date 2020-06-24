@@ -1,14 +1,13 @@
 package mas.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Transient;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
 public class Cleaning extends Service {
-
-    private static final double BASE_PRICE = 50;
-    private static final Duration BASE_TIME = Duration.ofMinutes(20);
-    private CarSize carSize;
-    private Type type;
-
     public enum CarSize {
         XS(1),
         S(1.5),
@@ -36,13 +35,27 @@ public class Cleaning extends Service {
         INNER, OUTER, COMPREHENSIVE
     }
 
+    private static final List<Cleaning> cleaningExtent = new ArrayList<>();
+    private static final double BASE_PRICE = 50;
+    private static final Duration BASE_TIME = Duration.ofMinutes(20);
+
+    private CarSize carSize;
+    private Type type;
+
+    public Cleaning(){
+        super();
+        cleaningExtent.add(this);
+    }
+
     public Cleaning(String catalogueNumber, CarSize carSize, Type type) throws Exception {
         super(catalogueNumber, BASE_PRICE);
         setCanHaveOnlyOneInCart(true);
         this.carSize = carSize;
         this.type = type;
+        cleaningExtent.add(this);
     }
 
+    // Getters
     public CarSize getCarSize() {
         return carSize;
     }
@@ -52,14 +65,30 @@ public class Cleaning extends Service {
     }
 
     @Override
+    @Transient
     public Duration getEstimatedRealizationTime() {
         return Duration.ofMinutes((long) (BASE_TIME.toMinutes() * carSize.getFactor()) * (getType() == Type.COMPREHENSIVE ? 2 : 1));
     }
 
     @Override
+    @Transient
     public double getPrice() {
-        return BASE_PRICE* carSize.getFactor();
+        return BASE_PRICE * carSize.getFactor();
     }
+
+    public static List<Cleaning> getExtent() {
+        return cleaningExtent;
+    }
+
+    // Setters
+    public void setCarSize(CarSize carSize) {
+        this.carSize = carSize;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
 
     @Override
     public String toString() {
