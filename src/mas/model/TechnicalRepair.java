@@ -8,6 +8,7 @@ import java.util.List;
 @Entity
 public class TechnicalRepair extends Service
 {
+    private static final int MAX_TRIMMED_LENGTH = 300;
     private static final List<TechnicalRepair> technicalRepairExtent = new ArrayList<>();
     private List<CarPart> carParts = new ArrayList<>();
     private String description;
@@ -55,7 +56,11 @@ public class TechnicalRepair extends Service
         this.carParts = carParts;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(String description) throws Exception {
+        String trimmed = description.trim();
+        if(trimmed.length() < 1 || trimmed.length() > MAX_TRIMMED_LENGTH)
+            throw new Exception("Trimmed description should have from 0 to "+MAX_TRIMMED_LENGTH+" characters! (trimmed length="+trimmed.length()+")");
+
         this.description = description;
     }
 

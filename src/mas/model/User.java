@@ -3,35 +3,39 @@ package mas.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-//CAŁOŚĆ
 public class User {
+    private static List<User> extent = new ArrayList<>();
     private long id;
 
     private String name;
     private String surname;
-    private String login; //TODO unique
+    private String login; //Unique
     private String password;
-    private String phoneNumber; //optional
-    private String email; //optional
+    private String phoneNumber;
+    private String email;
 
-
-    private Worker worker; //0-1
-    private Client client; //0-1
+    private Worker worker;
+    private Client client;
 
     public User() {
+        extent.add(this);
     }
 
-    private User(String name, String surname, String login, String password, String phoneNumber, String email) {
-        this.name = name;
-        this.surname = surname;
-        this.login = login;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
+    private User(String name, String surname, String login, String password, String phoneNumber, String email) throws Exception {
+        setName(name);
+        setSurname(surname);
+        setLogin(login);
+        setPassword(password);
+        setPhoneNumber(phoneNumber);
+        setEmail(email);
+        extent.add(this);
     }
 
+    // -- Getters --
     @Id
     @GeneratedValue(generator="increment")
     @GenericGenerator(name="increment", strategy = "increment")
@@ -73,6 +77,11 @@ public class User {
         return client;
     }
 
+    public static List<User> getExtent() {
+        return extent;
+    }
+
+    // -- Setters --
     public void setId(long id) {
         this.id = id;
     }
@@ -99,7 +108,10 @@ public class User {
         this.surname = surname;
     }
 
-    public void setLogin(String login) {
+    public void setLogin(String login) throws Exception {
+        if(extent.stream().map(User::getLogin).anyMatch(l->l.equals(login))) {
+            throw new Exception("This login already exists!");
+        }
         this.login = login;
     }
 

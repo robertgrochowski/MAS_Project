@@ -1,26 +1,42 @@
 package mas.model;
 
+import mas.model.enums.TicketStatus;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Opinion
 {
     private long id;
+    private static final int MAX_DAYS_TO_ADD_OPINION = 14;
+    private static final Set<Integer> validMarks = new HashSet<>(Arrays.asList(1,2,3,4,5));
 
     private LocalDateTime timeCreated;
-    private int mark; //todo constraints
+    private int mark;
     private String comment;
     private Ticket ticket;
 
     public Opinion() {
     }
 
-    private Opinion(Ticket ticket, LocalDateTime timeCreated, int mark, String comment) throws Exception {
+    public Opinion(Ticket ticket, LocalDateTime timeCreated, int mark, String comment) throws Exception {
         if(ticket == null) {
             throw new Exception("The whole (ticket) does not exists!");
+        }
+        if(Duration.between(ticket.getDateCreated(), timeCreated).toDays() > MAX_DAYS_TO_ADD_OPINION) {
+            throw new Exception("Opinion can not be added after "+MAX_DAYS_TO_ADD_OPINION+" days of creating the application!");
+        }
+        if(ticket.getStatus() != TicketStatus.FINISHED) {
+            throw new Exception("Opinion can be added only in ticket's " + TicketStatus.FINISHED.toString() + " status");
+        }
+        if(!validMarks.contains(mark)) {
+            throw new Exception("Invalid mark: " + mark);
         }
         this.timeCreated = timeCreated;
         this.mark = mark;

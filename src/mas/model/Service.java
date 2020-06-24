@@ -13,8 +13,6 @@ import java.util.Map;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Service {
     private static final List<Service> serviceExtent = new ArrayList<>();
-    private static final int MAX_TRIMMED_LENGTH = 350;
-    private static Map<String, Service> services = new HashMap<>(); //todo: extent ? map ?
 
     private long id;
 
@@ -35,6 +33,7 @@ public abstract class Service {
         setCatalogueNumber(catalogueNumber);
     }
 
+    // -- Getters --
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
@@ -50,16 +49,8 @@ public abstract class Service {
         return basePrice;
     }
 
-    public static Service getService(String name) {
-        return services.get(name);
-    }
-
     public boolean isHaveOnlyOneInCart() {
         return canHaveOnlyOneInCart;
-    }
-
-    public static int getMaxTrimmedLength() {
-        return MAX_TRIMMED_LENGTH;
     }
 
     public static List<? extends Service> getExtent() {
@@ -71,7 +62,7 @@ public abstract class Service {
         return tickets;
     }
 
-    // Setters
+    // -- Setters --
     public void setHaveOnlyOneInCart(boolean can) {
         canHaveOnlyOneInCart = can;
     }
@@ -85,11 +76,9 @@ public abstract class Service {
     }
 
     public void setCatalogueNumber(String catalogueNumber) throws Exception {
-        if(services.containsKey(catalogueNumber))
+        if(serviceExtent.stream().map(Service::getCatalogueNumber).anyMatch(c->c.equals(catalogueNumber)))
             throw new Exception("The object with given catalogue number already exists! (id=" + catalogueNumber + ")");
 
-        //TODO
-        //services.put(catalogueNumber, this);
         this.catalogueNumber = catalogueNumber;
     }
 
@@ -100,12 +89,21 @@ public abstract class Service {
         this.basePrice = basePrice;
     }
 
-    // Abstract methods
+    // -- Abstract methods --
     @Transient
     public abstract Duration getEstimatedRealizationTime();
 
     @Transient
     public abstract double getPrice();
+
+    // -- Other --
+    public void addTicket(Ticket ticket) {
+        if (!getTickets().contains(ticket)) {
+            getTickets().add(ticket);
+
+            ticket.addService(this);
+        }
+    }
 
     @Override
     public String toString() {
@@ -113,13 +111,5 @@ public abstract class Service {
                 "numerKatalogowy='" + getCatalogueNumber() + '\'' +
                 ", cena=" + getBasePrice() +
                 '}';
-    }
-
-    public void addTicket(Ticket ticket) {
-        if (!getTickets().contains(ticket)) {
-            getTickets().add(ticket);
-
-            ticket.addService(this);
-        }
     }
 }
