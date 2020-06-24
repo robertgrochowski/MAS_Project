@@ -2,13 +2,13 @@ package mas.model;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Entity
+@Embeddable
 public class DeliveryAddress {
-    private long id;
 
     private String city;
     private String street;
@@ -22,13 +22,6 @@ public class DeliveryAddress {
         this.street = street;
         this.homeNumber = homeNumber;
         this.flatNumber = flatNumber;
-    }
-
-    @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    public long getId() {
-        return id;
     }
 
     public String getCity() {
@@ -45,10 +38,6 @@ public class DeliveryAddress {
 
     public String getFlatNumber() {
         return flatNumber;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public void setCity(String city) {

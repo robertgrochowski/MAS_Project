@@ -1,5 +1,7 @@
 package mas.model;
 
+import mas.model.utils.Localization;
+
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 import java.time.Duration;
@@ -49,7 +51,7 @@ public class Cleaning extends Service {
 
     public Cleaning(String catalogueNumber, CarSize carSize, Type type) throws Exception {
         super(catalogueNumber, BASE_PRICE);
-        setCanHaveOnlyOneInCart(true);
+        setHaveOnlyOneInCart(true);
         this.carSize = carSize;
         this.type = type;
         cleaningExtent.add(this);
@@ -92,6 +94,6 @@ public class Cleaning extends Service {
 
     @Override
     public String toString() {
-        return "Czyszczenie: "+Localization.getLocalizedStringType(getType())+", "+getCarSize();
+        return "Czyszczenie: "+ Localization.getLocalizedStringType(getType())+", "+getCarSize();
     }
 }

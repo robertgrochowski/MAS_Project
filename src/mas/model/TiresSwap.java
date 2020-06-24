@@ -1,7 +1,8 @@
 package mas.model;
 
+import mas.model.utils.Localization;
+
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -33,7 +34,7 @@ public class TiresSwap extends Service {
 
     public TiresSwap(String catalogueNumber, SeasonType seasonType, int size, int yearOfManufacture) throws Exception {
         super(catalogueNumber, BASE_PRICE);
-        setCanHaveOnlyOneInCart(true);
+        setHaveOnlyOneInCart(true);
         this.seasonType = seasonType;
         this.size = size;
         this.yearOfManufacture = yearOfManufacture;

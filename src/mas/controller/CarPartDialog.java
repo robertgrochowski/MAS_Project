@@ -14,7 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mas.model.CarPart;
-import mas.model.Localization;
+import mas.model.utils.Localization;
 import mas.model.TechnicalRepair;
 
 import java.io.IOException;

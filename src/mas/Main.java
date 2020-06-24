@@ -7,13 +7,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import mas.model.*;
 import org.hibernate.HibernateException;
-import org.hibernate.Metamodel;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.query.Query;
 
-import javax.persistence.metamodel.EntityType;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -42,6 +39,22 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         seedDatabase();
+
+        /*final Session session = getSession();
+        try {
+            System.out.println("querying all the managed entities...");
+            final Metamodel metamodel = session.getSessionFactory().getMetamodel();
+            for (EntityType<?> entityType : metamodel.getEntities()) {
+                final String entityName = entityType.getName();
+                final Query query = session.createQuery("from " + entityName);
+                System.out.println("executing: " + query.getQueryString());
+                for (Object o : query.list()) {
+                    System.out.println("  " + o);
+                }
+            }
+        } finally {
+            session.close();
+        }*/
 
         Parent root = FXMLLoader.load(getClass().getResource("view/comission/addCommissionView.fxml"));
         primaryStage.setTitle("Serwis samochodowy");
@@ -151,6 +164,9 @@ public class Main extends Application {
         session.close();
     }
 
+    public static SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
 
     public static void main(String[] args) {
         launch(args);

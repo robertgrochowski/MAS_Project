@@ -37,6 +37,15 @@
         <mapping class="mas.model.DeliveryAddress"/>
         <mapping class="mas.model.TiresSwap"/>
         <mapping class="mas.model.TechnicalRepair"/>
+        <mapping class="mas.model.User"/>
+        <mapping class="mas.model.Worker"/>
+        <mapping class="mas.model.Client"/>
+        <mapping class="mas.model.Administrator"/>
+        <mapping class="mas.model.Mechanic"/>
+        <mapping class="mas.model.Deliverer"/>
+        <mapping class="mas.model.TicketMechanic"/>
+        <mapping class="mas.model.Ticket"/>
+        <mapping class="mas.model.Opinion"/>
 
     </session-factory>
 </hibernate-configuration>

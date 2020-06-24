@@ -11,10 +11,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import mas.model.*;
+import mas.model.utils.Localization;
 
 import java.net.URL;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -99,7 +99,7 @@ public class ServicesTab implements Initializable {
     ///Panel: Summary
     //todo: extract to localization
     private final static String TOTAL_PRICE_FORMAT = "SUMA: %.2f PLN";
-    private final static String ESTIMATED_REALIZATION_FORMAT = "Szacowany czas realizacji: "+Localization.DURATION_FORMAT;
+    private final static String ESTIMATED_REALIZATION_FORMAT = "Szacowany czas realizacji: "+ Localization.DURATION_FORMAT;
     private final static String CHOSEN_SERVICES_FORMAT = "Ilość wybranych usług: %d";
     @FXML Label totalPriceLabel;
     @FXML Label estimatedLeadTimeLabel;
@@ -307,8 +307,8 @@ public class ServicesTab implements Initializable {
     void onAddToCartClicked(Service service)
     {
         System.out.println(service);
-        System.out.println(service.canHaveOnlyOneInCart());
-        if(service.canHaveOnlyOneInCart())
+        System.out.println(service.isHaveOnlyOneInCart());
+        if(service.isHaveOnlyOneInCart())
         {
             boolean hasAlreadyThisServiceInCart = cart.stream()
                     .anyMatch(e->e.getClass() == service.getClass());

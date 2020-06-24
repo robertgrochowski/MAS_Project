@@ -1,4 +1,7 @@
-package mas.model;
+package mas.model.utils;
+
+import mas.model.Cleaning;
+import mas.model.TiresSwap;
 
 import java.util.HashMap;
 import java.util.Locale;

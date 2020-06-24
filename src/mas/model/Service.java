@@ -14,7 +14,7 @@ import java.util.Map;
 public abstract class Service {
     private static final List<Service> serviceExtent = new ArrayList<>();
     private static final int MAX_TRIMMED_LENGTH = 350;
-    private static Map<String, Service> services = new HashMap<>();
+    private static Map<String, Service> services = new HashMap<>(); //todo: extent ? map ?
 
     private long id;
 
@@ -22,13 +22,15 @@ public abstract class Service {
     private double basePrice;
     private boolean canHaveOnlyOneInCart;
 
+    private List<Ticket> tickets;
+
     public Service(){
         serviceExtent.add(this);
     }
 
     public Service(String catalogueNumber, double basePrice) throws Exception {
         serviceExtent.add(this);
-        setCanHaveOnlyOneInCart(false);
+        setHaveOnlyOneInCart(false);
         setBasePrice(basePrice);
         setCatalogueNumber(catalogueNumber);
     }
@@ -52,12 +54,8 @@ public abstract class Service {
         return services.get(name);
     }
 
-    public boolean canHaveOnlyOneInCart() {
+    public boolean isHaveOnlyOneInCart() {
         return canHaveOnlyOneInCart;
-    }
-
-    protected void setCanHaveOnlyOneInCart(boolean can) {
-        canHaveOnlyOneInCart = can;
     }
 
     public static int getMaxTrimmedLength() {
@@ -68,9 +66,22 @@ public abstract class Service {
         return serviceExtent;
     }
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
     // Setters
+    protected void setHaveOnlyOneInCart(boolean can) {
+        canHaveOnlyOneInCart = can;
+    }
+
     public void setId(long id) {
         this.id = id;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
     }
 
     public void setCatalogueNumber(String catalogueNumber) throws Exception {
