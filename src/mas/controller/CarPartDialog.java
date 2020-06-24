@@ -57,10 +57,12 @@ public class CarPartDialog implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(CarPartDialog.class.getResource("/mas/view/comission/carpartDialog.fxml"));
             Parent root = loader.load();
-            CarPartDialog controller = (CarPartDialog)loader.getController();
+            CarPartDialog controller = loader.getController();
             controller.setTechnicalRepair(technicalRepair);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
+            stage.setMinWidth(root.minWidth(-1));
+            stage.setMinHeight(root.minHeight(-1));
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(rootStage);
             stage.show();
