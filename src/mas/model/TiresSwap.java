@@ -35,9 +35,9 @@ public class TiresSwap extends Service {
     public TiresSwap(String catalogueNumber, SeasonType seasonType, int size, int yearOfManufacture) throws Exception {
         super(catalogueNumber, BASE_PRICE);
         setHaveOnlyOneInCart(true);
-        this.seasonType = seasonType;
-        this.size = size;
-        this.yearOfManufacture = yearOfManufacture;
+        setSeasonType(seasonType);
+        setSize(size);
+        setYearOfManufacture(yearOfManufacture);
         tiresSwapExtent.add(this);
     }
 

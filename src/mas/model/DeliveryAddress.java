@@ -18,10 +18,10 @@ public class DeliveryAddress {
     public DeliveryAddress(){}
 
     public DeliveryAddress(String city, String street, String homeNumber, String flatNumber) {
-        this.city = city;
-        this.street = street;
-        this.homeNumber = homeNumber;
-        this.flatNumber = flatNumber;
+        setCity(city);
+        setStreet(street);
+        setHomeNumber(homeNumber);
+        setFlatNumber(flatNumber);
     }
 
     public String getCity() {

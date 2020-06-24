@@ -35,12 +35,10 @@ public class Opinion
         if(ticket.getStatus() != TicketStatus.FINISHED) {
             throw new Exception("Opinion can be added only in ticket's " + TicketStatus.FINISHED.toString() + " status");
         }
-        if(!validMarks.contains(mark)) {
-            throw new Exception("Invalid mark: " + mark);
-        }
-        this.timeCreated = timeCreated;
-        this.mark = mark;
-        this.comment = comment;
+
+        setTimeCreated(timeCreated);
+        setMark(mark);
+        setComment(comment);
     }
 
     @Id
@@ -79,7 +77,10 @@ public class Opinion
         this.timeCreated = timeCreated;
     }
 
-    public void setMark(int mark) {
+    public void setMark(int mark) throws Exception {
+        if(!validMarks.contains(mark)) {
+            throw new Exception("Invalid mark: " + mark);
+        }
         this.mark = mark;
     }
 

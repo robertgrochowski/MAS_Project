@@ -2,20 +2,16 @@ package mas.controller;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.layout.Pane;
 import mas.Main;
 import mas.model.Service;
 import mas.model.Ticket;
 import mas.model.enums.TicketStatus;
 import org.hibernate.Session;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -98,7 +94,7 @@ public class AddCommission implements Initializable, PageNavigationCallback {
         Ticket ticket = new Ticket(LocalDate.now(), null, deliveryTabController.getDeliveryAddress());
 
         // Add all services to ticket
-        servicesInOrder.forEach(ticket::addService);
+        servicesInOrder.forEach(ticket::addServiceQualif);
 
         // Set status
         ticket.setStatus(TicketStatus.SUBMITTED);

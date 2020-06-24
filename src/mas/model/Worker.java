@@ -18,21 +18,19 @@ public abstract class Worker {
     private LocalDate employmentDate;
     private LocalDate sackingDate;
     private double salary;
-
     private User user;
 
     public Worker(){}
-
     public Worker(User user, String NIP, LocalDate employmentDate, LocalDate sackingDate, double salary) throws Exception {
         if(user == null) {
             throw new Exception("The whole (user) does not exists!");
         }
-        this.user = user;
-        this.NIP = NIP;
-        this.employmentDate = employmentDate;
-        this.sackingDate = sackingDate;
-        this.salary = salary;
-        this.user.setWorker(this);
+        setUser(user);
+        setNIP(NIP);
+        setEmploymentDate(employmentDate);
+        setSackingDate(sackingDate);
+        setSalary(salary);
+        getUser().setWorker(this);
     }
 
     @Id

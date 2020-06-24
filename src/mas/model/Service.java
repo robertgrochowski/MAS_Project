@@ -5,9 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -76,7 +74,7 @@ public abstract class Service {
     }
 
     public void setCatalogueNumber(String catalogueNumber) throws Exception {
-        if(serviceExtent.stream().map(Service::getCatalogueNumber).anyMatch(c->c.equals(catalogueNumber)))
+        if(getCatalogueNumber() != null && serviceExtent.stream().map(Service::getCatalogueNumber).anyMatch(c->c.equals(catalogueNumber)))
             throw new Exception("The object with given catalogue number already exists! (id=" + catalogueNumber + ")");
 
         this.catalogueNumber = catalogueNumber;
@@ -101,7 +99,7 @@ public abstract class Service {
         if (!getTickets().contains(ticket)) {
             getTickets().add(ticket);
 
-            ticket.addService(this);
+            ticket.addServiceQualif(this);
         }
     }
 

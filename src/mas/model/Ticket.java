@@ -7,7 +7,9 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 public class Ticket {
@@ -18,6 +20,7 @@ public class Ticket {
     private LocalDate dateFinished;
 
     private List<Service> services = new ArrayList<>();
+    private Map<String, Service> servicesQualif = new HashMap<>();
     private List<TicketMechanic> ticketMechanics = new ArrayList<>();
     private Deliverer deliverer;
     private Client client;
@@ -28,8 +31,8 @@ public class Ticket {
     public Ticket(){}
 
     public Ticket(LocalDate dateCreated, LocalDate dateFinished, DeliveryAddress address) {
-        this.dateCreated = dateCreated;
-        this.dateFinished = dateFinished;
+        setDateCreated(dateCreated);
+        setDateFinished(dateFinished);
         setDeliveryAddress(address);
     }
 
@@ -70,6 +73,14 @@ public class Ticket {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public List<Service> getServices() {
         return services;
+    }
+
+    public Service findServiceQualif(String id) throws Exception {
+        if (servicesQualif.containsKey(id)) {
+            return servicesQualif.get(id);
+        }
+
+        throw new Exception("No qualified assosiation (Ticket -> Service) by qualification of ["+id+"] found");
     }
 
     @Embedded
@@ -138,19 +149,18 @@ public class Ticket {
         this.ticketMechanics = ticketMechanics;
     }
 
-    public void addService(Service service) {
-        if(!getServices().contains(service))
-        {
-            getServices().add(service);
-
-            service.addTicket(this);
-        }
-    }
-
     public void addMechanic(TicketMechanic mechanic)
     {
         if(!getTicketMechanics().contains(mechanic)) {
             getTicketMechanics().add(mechanic);
+        }
+    }
+
+    public void addServiceQualif(Service service) {
+        if (!servicesQualif.containsKey(service.getCatalogueNumber())) {
+            servicesQualif.put(service.getCatalogueNumber(), service);
+
+            service.addTicket(this);
         }
     }
 

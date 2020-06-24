@@ -22,9 +22,9 @@ public class Client {
         if(user == null) {
             throw new Exception("The whole (user) does not exists!");
         }
-        this.user = user;
-        this.user.setClient(this);
-        this.registrationDate = registrationDate;
+        setUser(user);
+        getUser().setClient(this);
+        setRegistrationDate(registrationDate);
     }
 
     @Id

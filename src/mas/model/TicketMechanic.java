@@ -12,12 +12,11 @@ public class TicketMechanic {
     private Ticket ticket;
     private String workDescription;
 
-    public TicketMechanic() {
-    }
+    public TicketMechanic() { }
 
     public TicketMechanic(Mechanic mechanic, Ticket ticket) {
-        this.mechanic = mechanic;
-        this.ticket = ticket;
+        setMechanic(mechanic);
+        setTicket(ticket);
     }
 
     @Id

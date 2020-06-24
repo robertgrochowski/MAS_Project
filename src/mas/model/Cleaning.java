@@ -52,8 +52,8 @@ public class Cleaning extends Service {
     public Cleaning(String catalogueNumber, CarSize carSize, Type type) throws Exception {
         super(catalogueNumber, BASE_PRICE);
         setHaveOnlyOneInCart(true);
-        this.carSize = carSize;
-        this.type = type;
+        setCarSize(carSize);
+        setType(type);
         cleaningExtent.add(this);
     }
 

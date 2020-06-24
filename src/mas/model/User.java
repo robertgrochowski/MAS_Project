@@ -109,7 +109,7 @@ public class User {
     }
 
     public void setLogin(String login) throws Exception {
-        if(extent.stream().map(User::getLogin).anyMatch(l->l.equals(login))) {
+        if(getLogin() != null && extent.stream().map(User::getLogin).anyMatch(l->l.equals(login))) {
             throw new Exception("This login already exists!");
         }
         this.login = login;
