@@ -100,10 +100,12 @@ public class CarPart {
 
     @Override
     public String toString() {
-        return "Czesc{" +
-                "nazwa='" + getName() + '\'' +
-                ", koszt=" + getCost() +
-                ", szacunkowCzasWymiany=" + getAvgReplaceTime().toMinutes() + "mins" +
+        return "CarPart{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", cost=" + cost +
+                ", avgReplaceTime=" + avgReplaceTime +
+                ", repairs=" + repairs +
                 '}';
     }
 }

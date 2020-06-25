@@ -10,12 +10,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import mas.model.*;
+import mas.model.Cleaning;
+import mas.model.Service;
+import mas.model.TechnicalRepair;
+import mas.model.TiresSwap;
 import mas.model.utils.Localization;
 
 import java.net.URL;
 import java.time.Duration;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
 /**
@@ -26,10 +32,12 @@ import java.util.function.Predicate;
  */
 public class ServicesTab implements Initializable {
 
-    //TODO?
+    /**
+     * Model for FilterCombobox
+     */
     private static class FilterColumnComboItem {
-        private TableColumn column;
-        private Class columnClass;
+        private final TableColumn column;
+        private final Class columnClass;
 
         public FilterColumnComboItem(@NotNull TableColumn column, Class columnClass) {
             this.columnClass = columnClass;
@@ -59,8 +67,6 @@ public class ServicesTab implements Initializable {
     @FXML private RadioButton technicalRepairTypeRadio;
     @FXML private RadioButton tiresSwapTypeRadio;
     @FXML private RadioButton cleaningTypeRadio;
-    @FXML private TextField catalogueNumberTextField;
-    @FXML private TextField descriptionTextField;
     @FXML private Button clearTextField;
     // 1b) Filter column
     @FXML private ComboBox<FilterColumnComboItem> filterColumnComboBox;
@@ -344,7 +350,8 @@ public class ServicesTab implements Initializable {
                 if(item == null || newValue.isEmpty())
                     columnFilterPredicate = a -> true;
                 else
-                    columnFilterPredicate = service -> s.getCatalogueNumber().contains(newValue);//todo
+                    //todo: add other columns
+                    columnFilterPredicate = service -> s.getCatalogueNumber().contains(newValue);
 
                 return servicesModelTypePredicate.test(s) && columnFilterPredicate.test(s); });
         }));

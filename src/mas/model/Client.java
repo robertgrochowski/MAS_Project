@@ -83,4 +83,14 @@ public class Client {
             ticket.setClient(this);
         }
     }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", registrationDate=" + registrationDate +
+                ", tickets=" + tickets +
+                ", user=" + user +
+                '}';
+    }
 }

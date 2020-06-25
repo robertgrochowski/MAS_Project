@@ -114,9 +114,12 @@ public abstract class Service {
 
     @Override
     public String toString() {
-        return "Usluga{" +
-                "numerKatalogowy='" + getCatalogueNumber() + '\'' +
-                ", cena=" + getBasePrice() +
+        return "Service{" +
+                "id=" + id +
+                ", catalogueNumber='" + catalogueNumber + '\'' +
+                ", basePrice=" + basePrice +
+                ", canHaveOnlyOneInCart=" + canHaveOnlyOneInCart +
+                ", tickets=" + tickets +
                 '}';
     }
 }

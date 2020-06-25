@@ -1,11 +1,6 @@
 package mas.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
 /**
  * Implemented "Adres" class from UML diagram
@@ -66,5 +61,15 @@ public class DeliveryAddress {
 
     public void setFlatNumber(String flatNumber) {
         this.flatNumber = flatNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "DeliveryAddress{" +
+                "city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                ", homeNumber='" + homeNumber + '\'' +
+                ", flatNumber='" + flatNumber + '\'' +
+                '}';
     }
 }

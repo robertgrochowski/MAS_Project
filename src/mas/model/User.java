@@ -139,4 +139,19 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", worker=" + worker +
+                ", client=" + client +
+                '}';
+    }
 }

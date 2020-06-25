@@ -71,4 +71,14 @@ public class TicketMechanic {
     public void setWorkDescription(String workDescription) {
         this.workDescription = workDescription;
     }
+
+    @Override
+    public String toString() {
+        return "TicketMechanic{" +
+                "id=" + id +
+                ", workDescription='" + workDescription + '\'' +
+                ", mechanic=" + mechanic +
+                ", ticket=" + ticket +
+                '}';
+    }
 }

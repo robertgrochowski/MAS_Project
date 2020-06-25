@@ -5,7 +5,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -178,17 +177,19 @@ public class Ticket {
 
     @Override
     public String toString() {
-        String info = "Zgloszenie\n";
-        info += "\tOpis: "+getDescription()+"\n";
-        info += "\tData utworzenia:"+getDateCreated()+"\n";
-        info += "\tData ukonczenia:"+ (getDateFinished() != null ? getDateFinished() : "brak")+"\n";
-
-        /*info += "\tMechanicy:\n";
-        for (Mechanic mechanic : getMechanics()) {
-            info += "\t\t" + mechanic.getName() + " " + mechanic.getSurname()+ "\n";
-        }*/
-
-        info += "\tDostarczyciel: "+ getDeliverer().getNameAndSurname();
-        return info;
+        return "Ticket{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", dateCreated=" + dateCreated +
+                ", dateFinished=" + dateFinished +
+                ", deliveryAddress=" + deliveryAddress +
+                ", services=" + services +
+                ", servicesQualif=" + servicesQualif +
+                ", ticketMechanics=" + ticketMechanics +
+                ", deliverer=" + deliverer +
+                ", client=" + client +
+                ", opinion=" + opinion +
+                ", status=" + status +
+                '}';
     }
 }

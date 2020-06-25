@@ -1,8 +1,14 @@
 package mas.model;
 
-import javax.persistence.*;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Implemented "Mechanik" class from UML diagram
@@ -65,14 +71,9 @@ public class Mechanic extends Worker {
 
     @Override
     public String toString() {
-        String info = "Mechanik: "+getNameAndSurname()+"\n";
-        info += "\tNIP:"+getNIP()+"\n";
-        info += "\tHiredate:"+getEmploymentDate()+"\n";
-        info += "\tUkonczone kursy:"+getCompletedCourses()+"\n";
-        /*info += "\tZgloszenia:\n";
-        for (Ticket ticket : getTickets()) {
-            info += "\t\t("+ticket.getDateCreated()+"): "+ticket.getDescription()+"\n";
-        }*/
-        return info;
+        return "Mechanic{" +
+                "completedCourses=" + completedCourses +
+                ", mechanicTickets=" + mechanicTickets +
+                "} " + super.toString();
     }
 }

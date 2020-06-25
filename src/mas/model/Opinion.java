@@ -99,4 +99,15 @@ public class Opinion
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    @Override
+    public String toString() {
+        return "Opinion{" +
+                "id=" + id +
+                ", timeCreated=" + timeCreated +
+                ", mark=" + mark +
+                ", comment='" + comment + '\'' +
+                ", ticket=" + ticket +
+                '}';
+    }
 }

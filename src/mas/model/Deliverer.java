@@ -67,14 +67,9 @@ public class Deliverer extends Worker{
 
     @Override
     public String toString() {
-        String info = "Dostarczyciel: "+getNameAndSurname()+"\n";
-        info += "\tNIP:"+getNIP()+"\n";
-        info += "\tHiredate:"+getEmploymentDate()+"\n";
-        info += "\tKategorie prawa jazdy:"+getDrivingLicenses()+"\n";
-        info += "\tZgloszenia:\n";
-        for (Ticket ticket : getTickets()) {
-            info += "\t\t("+ticket.getDateCreated()+"): "+ticket.getDescription()+"\n";
-        }
-        return info;
+        return "Deliverer{" +
+                "drivingLicenses=" + drivingLicenses +
+                ", tickets=" + tickets +
+                "} " + super.toString();
     }
 }

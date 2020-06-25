@@ -49,4 +49,12 @@ public class Administrator extends Worker {
     public void setMonthWorkedHours(long monthWorkedHours) {
         this.monthWorkedHours = monthWorkedHours;
     }
+
+    @Override
+    public String toString() {
+        return "Administrator{" +
+                "totalWorkedHours=" + totalWorkedHours +
+                ", monthWorkedHours=" + monthWorkedHours +
+                "} " + super.toString();
+    }
 }

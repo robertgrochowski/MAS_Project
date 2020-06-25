@@ -106,11 +106,13 @@ public abstract class Worker {
     // Other
     @Override
     public String toString() {
-        return "Pracownik{" +
-                "NIP='" + NIP + '\'' +
+        return "Worker{" +
+                "id=" + id +
+                ", NIP='" + NIP + '\'' +
                 ", employmentDate=" + employmentDate +
-                ", sackingDate=" + (sackingDate==null?"brak":sackingDate.toString()) +
+                ", sackingDate=" + sackingDate +
                 ", salary=" + salary +
-                "} " + super.toString();
+                ", user=" + user +
+                '}';
     }
 }
