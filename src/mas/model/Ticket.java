@@ -170,7 +170,9 @@ public class Ticket {
     public void addServiceQualif(Service service) {
         if (!servicesQualif.containsKey(service.getCatalogueNumber())) {
             servicesQualif.put(service.getCatalogueNumber(), service);
-
+            if(!getServices().contains(service)) {
+                services.add(service);
+            }
             service.addTicket(this);
         }
     }

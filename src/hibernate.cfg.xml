@@ -7,7 +7,7 @@
         <!-- Database connection settings -->
         <property name="connection.driver_class">org.h2.Driver</property>
         <!--<property name="connection.url">jdbc:h2:mem:navin;DB_CLOSE_DELAY=-1;MVCC=TRUE</property>-->
-        <property name="connection.url">jdbc:h2:~/test</property>
+        <property name="connection.url">jdbc:h2:~/carservice/db</property>
         <!--<property name="connection.url">jdbc:h2:tcp://localhost/~/db-test.h2</property>-->
         <property name="connection.username">sa</property>
         <property name="connection.password"></property>

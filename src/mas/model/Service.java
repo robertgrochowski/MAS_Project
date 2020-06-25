@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Implemented "Usluga" class from UML diagram
@@ -82,9 +83,13 @@ public abstract class Service {
     }
 
     public void setCatalogueNumber(String catalogueNumber) throws Exception {
-        if(getCatalogueNumber() != null &&
-                serviceExtent.stream().map(Service::getCatalogueNumber).anyMatch(c->c.equals(catalogueNumber)))
+
+        if (getCatalogueNumber() != null && serviceExtent.stream()
+                .map(Service::getCatalogueNumber)
+                .filter(Objects::nonNull)
+                .anyMatch(c -> c.equals(catalogueNumber))) {
             throw new Exception("The object with given catalogue number already exists! (id=" + catalogueNumber + ")");
+        }
 
         this.catalogueNumber = catalogueNumber;
     }

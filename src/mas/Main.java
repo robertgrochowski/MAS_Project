@@ -83,7 +83,10 @@ public class Main extends Application {
         CarPart part4 = new CarPart("Żarówki drogowe (2x)", 200, Duration.ofMinutes(30));
         CarPart part5 = new CarPart("Układ wspomagania", 400, Duration.ofHours(3));
         CarPart part6 = new CarPart("Pasek rozrządu", 80, Duration.ofHours(1));
-        List<CarPart> carParts = Arrays.asList(part1, part2, part3, part4, part5, part6);
+        CarPart part7 = new CarPart("Filtr powietrza", 70, Duration.ofMinutes(40));
+        CarPart part8 = new CarPart("Filtr oleju", 70, Duration.ofMinutes(40));
+        CarPart part9 = new CarPart("Filtr paliwa", 70, Duration.ofMinutes(60));
+        List<CarPart> carParts = Arrays.asList(part1, part2, part3, part4, part5, part6, part7, part8, part9);
 
         // Technical repairs
         TechnicalRepair repair1 = new TechnicalRepair("RDL", 50, "Wymiana żarówek świateł mijania");
@@ -93,7 +96,8 @@ public class Main extends Application {
         TechnicalRepair repair5 = new TechnicalRepair("RTB", 200, "Wymiana pasku rozrządu");
         TechnicalRepair repair6 = new TechnicalRepair("RGB", 200, "Wymiana skrzyni biegów");
         TechnicalRepair repair7 = new TechnicalRepair("ROR", 100, "Wymiana oleju");
-        List<TechnicalRepair> technicalRepairs = Arrays.asList(repair1, repair2, repair3, repair4, repair5, repair6, repair7);
+        TechnicalRepair repair8 = new TechnicalRepair("RAF", 100, "Wymiana filtrów");
+        List<TechnicalRepair> technicalRepairs = Arrays.asList(repair1, repair2, repair3, repair4, repair5, repair6, repair7, repair8);
 
         repair1.addCarPart(part3);
         repair2.addCarPart(part4);
@@ -103,6 +107,9 @@ public class Main extends Application {
         repair5.addCarPart(part6);
         repair6.addCarPart(part2);
         repair7.addCarPart(part1);
+        repair8.addCarPart(part7);
+        repair8.addCarPart(part8);
+        repair8.addCarPart(part9);
 
         // Cleanings
         List<Cleaning> cleanings = new ArrayList<>();
@@ -137,6 +144,12 @@ public class Main extends Application {
                 }
             }
         }
+
+        // Clear extents because they are being loaded from DB again
+        Service.getExtent().clear();
+        TechnicalRepair.getExtent().clear();
+        Cleaning.getExtent().clear();
+        TiresSwap.getExtent().clear();
 
         // Persist data
         Session session = sessionFactory.openSession();

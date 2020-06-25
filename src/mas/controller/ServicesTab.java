@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -252,8 +253,12 @@ public class ServicesTab implements Initializable {
             onChangedServiceTypeFilter();
         });
 
+        // Make Table sortable
+        SortedList<Service> sortedList = new SortedList<>(allServicesModel);
+        sortedList.comparatorProperty().bind(chooseServicesTable.comparatorProperty());
+
         // Set model for both tables
-        chooseServicesTable.setItems(allServicesModel);
+        chooseServicesTable.setItems(sortedList);
         cartTable.setItems(cart);
 
         /// Column properties set
