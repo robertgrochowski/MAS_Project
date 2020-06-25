@@ -8,6 +8,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import mas.model.DeliveryAddress;
+import mas.model.utils.Localization;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -34,9 +35,9 @@ public class DeliveryTab implements Initializable {
 
     private static DeliveryTab instance;
 
-    // Patterns for data validation // TODO: polskie znaki
-    private final Pattern cityPattern = Pattern.compile("^(\\w+[ ]?)+$");
-    private final Pattern streetPattern = Pattern.compile("^(\\w+[ ]?)+$");
+    // Patterns for data validation
+    private final Pattern cityPattern = Pattern.compile("^([0-9" + Localization.REGEX_LETTERS + "]+[ ]?)+$");
+    private final Pattern streetPattern = Pattern.compile("^([0-9" + Localization.REGEX_LETTERS + "]+[ ]?)+$");
     private final Pattern houseNumberPattern = Pattern.compile("^[0-9]+[a-zA-Z]?$");
     private final Pattern flatNumberPattern = Pattern.compile("^[0-9]+$");
 

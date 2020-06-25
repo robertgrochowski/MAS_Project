@@ -20,6 +20,8 @@ public class Localization {
     public final static String ESTIMATED_REALIZATION_FORMAT = "Szacowany czas realizacji: "+ DURATION_FORMAT;
     public final static String TOTAL_PRICE_FORMAT = "SUMA: %.2f PLN";
     public final static String CHOSEN_SERVICES_FORMAT = "Ilość wybranych usług: %d";
+    public final static String REGEX_PL_LETTERS = "AaĄąBbCcĆćDdEeĘęFfGgHhIiJjKkLlŁłMmNnŃńOoÓóPpRrSsŚśTtUuWwYyZzŹźŻż";
+    public static String REGEX_LETTERS = "a-zA-Z";
     public static Map<Locale, Map<TiresSwap.SeasonType, String>> tiresType = new HashMap<>();
     public static Map<Locale, Map<Cleaning.Type, String>> cleaningType = new HashMap<>();
     public static Locale appLocale;
@@ -27,9 +29,10 @@ public class Localization {
 
     static
     {
+        // TODO add other locales
         PL_LOCALE = new Locale("pl");
         appLocale = PL_LOCALE;
-
+        REGEX_LETTERS = REGEX_PL_LETTERS;
         Map<TiresSwap.SeasonType, String> tiresTypePolish = new HashMap<>();
         tiresTypePolish.put(TiresSwap.SeasonType.ALLSEASON, "Całoroczne");
         tiresTypePolish.put(TiresSwap.SeasonType.WINTER, "Zimowe");
