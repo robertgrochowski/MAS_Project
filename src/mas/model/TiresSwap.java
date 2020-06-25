@@ -9,6 +9,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implemented "WymianaOpon" class from UML diagram
+ * TiresSwap is a class representing swaping tires in our system.
+ * It contains SeasonType enum.
+ * @see SeasonType
+ *
+ * @author Robert Grochowski
+ * @since 1.0
+ */
 @Entity
 public class TiresSwap extends Service {
 
@@ -23,6 +32,7 @@ public class TiresSwap extends Service {
     private static final double DISCOUNT_PER_YEAR = 20;
     private static final double MAX_YEAR_DISCOUNT = 60;
 
+    // Fields
     private SeasonType seasonType;
     private int size;
     private int yearOfManufacture;
@@ -41,6 +51,7 @@ public class TiresSwap extends Service {
         tiresSwapExtent.add(this);
     }
 
+    // Getters
     public SeasonType getSeasonType() {
         return seasonType;
     }
@@ -70,6 +81,7 @@ public class TiresSwap extends Service {
         return tiresSwapExtent;
     }
 
+    // Setters
     public void setSeasonType(SeasonType seasonType) {
         this.seasonType = seasonType;
     }
@@ -82,6 +94,7 @@ public class TiresSwap extends Service {
         this.yearOfManufacture = yearOfManufacture;
     }
 
+    // Other
     @Override
     public String toString() {
         return "Wymiana opon: " + getSize() + "'', " + Localization.getLocalizedSeasonType(getSeasonType()) + ", " + getYearOfManufacture() + "r";

@@ -4,20 +4,27 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * Implemented "Worker" class from UML diagram
+ * Worker represents an employee in our system.
+ *
+ * @author Robert Grochowski
+ * @since 1.0
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Worker {
-    protected static double BASE_BONUS = 200;
+    private static double BASE_BONUS = 200;
 
+    // Fields
     private long id;
-
     private String NIP;
     private LocalDate employmentDate;
     private LocalDate sackingDate;
     private double salary;
+
+    // Associations
     private User user;
 
     public Worker(){}
@@ -33,6 +40,7 @@ public abstract class Worker {
         getUser().setWorker(this);
     }
 
+    // Getters
     @Id
     @GeneratedValue(generator="increment")
     @GenericGenerator(name="increment", strategy = "increment")
@@ -61,6 +69,16 @@ public abstract class Worker {
         return user;
     }
 
+    @Transient
+    public String getNameAndSurname() {
+        return user.getName() + " " + user.getSurname();
+    }
+
+    public static double getBaseBonus() {
+        return BASE_BONUS;
+    }
+
+    // Setters
     public void setUser(User user) {
         this.user = user;
     }
@@ -85,11 +103,7 @@ public abstract class Worker {
         this.employmentDate = employmentDate;
     }
 
-    @Transient
-    public String getNameAndSurname() {
-        return user.getName() + " " + user.getSurname();
-    }
-
+    // Other
     @Override
     public String toString() {
         return "Pracownik{" +

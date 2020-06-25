@@ -4,10 +4,20 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.*;
 
+/**
+ * Implemented "Mechanik" class from UML diagram
+ * Mechanic is a worker who repairs and cleans cars
+ *
+ * @author Robert Grochowski
+ * @since 1.0
+ */
 @Entity
 public class Mechanic extends Worker {
 
+    // Fields
     private Set<String> completedCourses = new HashSet<>();
+
+    // Associations
     private List<TicketMechanic> mechanicTickets = new ArrayList<>();
 
     public Mechanic(){ }
@@ -21,13 +31,7 @@ public class Mechanic extends Worker {
         super(user, NIP, employmentDate, sackingDate, salary);
     }
 
-    public void addTicket(TicketMechanic ticket)
-    {
-        if(!getMechanicTickets().contains(ticket)) {
-            getMechanicTickets().add(ticket);
-        }
-    }
-
+    // Getters
     @OneToMany(fetch = FetchType.EAGER)
     public List<TicketMechanic> getMechanicTickets() {
         return mechanicTickets;
@@ -38,6 +42,7 @@ public class Mechanic extends Worker {
         return completedCourses;
     }
 
+    // Setters
     public void setMechanicTickets(List<TicketMechanic> mechanicTickets) {
         this.mechanicTickets = mechanicTickets;
     }
@@ -50,6 +55,13 @@ public class Mechanic extends Worker {
         this.completedCourses = completedCourses;
     }
 
+    // Other
+    public void addTicket(TicketMechanic ticket)
+    {
+        if(!getMechanicTickets().contains(ticket)) {
+            getMechanicTickets().add(ticket);
+        }
+    }
 
     @Override
     public String toString() {

@@ -7,14 +7,25 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implemented "Czesc" class from UML diagram
+ * CarPart is a required car part for technical repair
+ * @see TechnicalRepair
+ *
+ * @author Robert Grochowski
+ * @since 1.0
+ */
 @Entity
 public class CarPart {
     private static final List<CarPart> carPartExtent = new ArrayList<>();
-    private long id;
 
+    // Fields
+    private long id;
     private String name;
     private double cost;
     private Duration avgReplaceTime;
+
+    // Associations
     private List<TechnicalRepair> repairs = new ArrayList<>();
 
     public CarPart(){
@@ -48,13 +59,13 @@ public class CarPart {
         return name;
     }
 
-    public static List<CarPart> getExtent() {
-        return carPartExtent;
-    }
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public List<TechnicalRepair> getRepairs() {
         return repairs;
+    }
+
+    public static List<CarPart> getExtent() {
+        return carPartExtent;
     }
 
     // Setters
@@ -78,8 +89,8 @@ public class CarPart {
         this.repairs = repairs;
     }
 
-    public void addRepair(TechnicalRepair technicalRepair)
-    {
+    // Other
+    public void addRepair(TechnicalRepair technicalRepair) {
         if(!getRepairs().contains(technicalRepair))
         {
             getRepairs().add(technicalRepair);

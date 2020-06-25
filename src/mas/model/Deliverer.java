@@ -9,10 +9,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Implemented "Dostarczyciel" class from UML diagram
+ * Deliverer is a person who provides car to pick up point
+ *
+ * @author Robert Grochowski
+ * @since 1.0
+ */
 @Entity
 public class Deliverer extends Worker{
 
+    // Fields
     private Set<DrivingLicense> drivingLicenses = new HashSet<>();
+
+    // Associations
     private List<Ticket> tickets = new ArrayList<>();
 
     public Deliverer(){}
@@ -26,22 +36,10 @@ public class Deliverer extends Worker{
         super(user, NIP, employmentDate, sackingDate, salary);
     }
 
-    public void addTicket(Ticket ticket)
-    {
-        if(!getTickets().contains(ticket)) {
-            getTickets().add(ticket);
-
-            ticket.setDeliverer(this);
-        }
-    }
-
+    // Getters
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public List<Ticket> getTickets() {
         return tickets;
-    }
-
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
     }
 
     @ElementCollection
@@ -49,8 +47,22 @@ public class Deliverer extends Worker{
         return drivingLicenses;
     }
 
+    // Setters
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
     public void setDrivingLicenses(Set<DrivingLicense> drivingLicenses) {
         this.drivingLicenses = drivingLicenses;
+    }
+
+    // Other
+    public void addTicket(Ticket ticket) {
+        if(!getTickets().contains(ticket)) {
+            getTickets().add(ticket);
+
+            ticket.setDeliverer(this);
+        }
     }
 
     @Override

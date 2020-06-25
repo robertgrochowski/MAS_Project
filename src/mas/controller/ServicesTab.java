@@ -18,12 +18,15 @@ import java.time.Duration;
 import java.util.*;
 import java.util.function.Predicate;
 
+/**
+ * Controller for Services Tab.
+ *
+ * @since 1.0
+ * @author Robert Grochowski
+ */
 public class ServicesTab implements Initializable {
 
-    private FilteredList<FilterColumnComboItem> filteredComboboxList;
-    private static ServicesTab instance; //todo
-    private PageNavigationCallback pageNavigationCallback;
-
+    //TODO?
     private static class FilterColumnComboItem {
         private TableColumn column;
         private Class columnClass;
@@ -47,69 +50,100 @@ public class ServicesTab implements Initializable {
         }
     }
 
-    // TAB: Services
-    @FXML Button nextButton;
-    @FXML Button cancelButton;
+    ////// FXML Components
+    @FXML private Button nextButton;
+    @FXML private Button cancelButton;
 
-    /// Panel: Filters
-    @FXML RadioButton technicalRepairTypeRadio;
-    @FXML RadioButton tiresSwapTypeRadio;
-    @FXML RadioButton cleaningTypeRadio;
-    @FXML TextField catalogueNumberTextField;
-    @FXML TextField descriptionTextField;
-    @FXML Button clearTextField;
-    //
-    @FXML ComboBox<FilterColumnComboItem> filterColumnComboBox;
-    @FXML TextField filterValueTextField;
-    private Predicate<Service> columnFilterPredicate;
+    /// 1) Panel: Filters
+    // 1a) Filter type
+    @FXML private RadioButton technicalRepairTypeRadio;
+    @FXML private RadioButton tiresSwapTypeRadio;
+    @FXML private RadioButton cleaningTypeRadio;
+    @FXML private TextField catalogueNumberTextField;
+    @FXML private TextField descriptionTextField;
+    @FXML private Button clearTextField;
+    // 1b) Filter column
+    @FXML private ComboBox<FilterColumnComboItem> filterColumnComboBox;
+    @FXML private TextField filterValueTextField;
 
-    /// Table: choose services
+    /// 2) Table: choose services
     // Common columns
-    @FXML
-    TableView<Service> chooseServicesTable;
-    @FXML TableColumn<Service, String> catalogueNumberCol;
-    @FXML TableColumn<Service, String> priceCol;
-    @FXML TableColumn<Service, String> realizationTimeCol;
-    @FXML TableColumn<Service, Service> selectCol;
+    @FXML TableView<Service> chooseServicesTable;
+    @FXML private TableColumn<Service, String> catalogueNumberCol;
+    @FXML private TableColumn<Service, String> priceCol;
+    @FXML private TableColumn<Service, String> realizationTimeCol;
+    @FXML private TableColumn<Service, Service> selectCol;
 
-    // Technical repair columns
-    @FXML TableColumn<TechnicalRepair, String> descriptionCol;
-    @FXML TableColumn<TechnicalRepair, TechnicalRepair> showPartsCol;
-    private List<TableColumn> technicalRepairColumns;
+    // 2a) Technical repair columns
+    @FXML private TableColumn<TechnicalRepair, String> descriptionCol;
+    @FXML private TableColumn<TechnicalRepair, TechnicalRepair> showPartsCol;
 
-    // Tires swap columns
-    @FXML TableColumn<TiresSwap, String> tireSizeCol;
-    @FXML TableColumn<TiresSwap, Integer> tireManYearCol;
-    @FXML TableColumn<TiresSwap, String> tireTypeCol;
-    private List<TableColumn> tiresColumns;
+    // 2b) Tires swap columns
+    @FXML private TableColumn<TiresSwap, String> tireSizeCol;
+    @FXML private TableColumn<TiresSwap, Integer> tireManYearCol;
+    @FXML private TableColumn<TiresSwap, String> tireTypeCol;
 
-    // Cleaning columns
-    @FXML TableColumn<Cleaning, String> cleaningTypeCol;
-    @FXML TableColumn<Cleaning, String> carSizeCol;
-    private List<TableColumn> cleaningColumns;
+    // 2c) Cleaning columns
+    @FXML private TableColumn<Cleaning, String> cleaningTypeCol;
+    @FXML private TableColumn<Cleaning, String> carSizeCol;
 
-    ///Table: cart
-    @FXML TableView<Service> tableCart;
-    @FXML TableColumn<Service, String> catalogueNumberCartCol;
-    @FXML TableColumn<Service, String> detailsCartCol;
-    @FXML TableColumn<Service, String> priceCartCol;
-    @FXML TableColumn<Service, String> realizationTimeCartCol;
-    @FXML TableColumn<Service, Service> deleteFromCartCol;
+    /// 3) Table: cart
+    @FXML private TableView<Service> cartTable;
+    @FXML private TableColumn<Service, String> catalogueNumberCartCol;
+    @FXML private TableColumn<Service, String> detailsCartCol;
+    @FXML private TableColumn<Service, String> priceCartCol;
+    @FXML private TableColumn<Service, String> realizationTimeCartCol;
+    @FXML private TableColumn<Service, Service> deleteFromCartCol;
 
-    ///Panel: Summary
-    //todo: extract to localization
-    private final static String TOTAL_PRICE_FORMAT = "SUMA: %.2f PLN";
-    private final static String ESTIMATED_REALIZATION_FORMAT = "Szacowany czas realizacji: "+ Localization.DURATION_FORMAT;
-    private final static String CHOSEN_SERVICES_FORMAT = "Ilość wybranych usług: %d";
-    @FXML Label totalPriceLabel;
-    @FXML Label estimatedLeadTimeLabel;
-    @FXML Label chosenServicesAmountLabel;
+    /// 4) Tab: summary
+    @FXML private Label totalPriceLabel;
+    @FXML private Label estimatedLeadTimeLabel;
+    @FXML private Label chosenServicesAmountLabel;
 
+    ////// Fields
+    private static ServicesTab instance;
+
+    /**
+     * PageNavigationCallback for calling the main controller about navigation callbacks (such as next tab)
+     */
+    private PageNavigationCallback pageNavigationCallback;
+
+    /**
+     * Filter column combobox list model. It is filtered by chosen service type
+     */
+    private FilteredList<FilterColumnComboItem> filteredComboboxList;
+
+    /**
+     * Model for chooseServicesTable. It is filtered by chosen service type
+     */
     private final FilteredList<Service> allServicesModel;
+
+    /**
+     * List model for cartTable
+     */
     private final ObservableList<Service> cart = FXCollections.observableArrayList();
+
+    /**
+     * Actual filtered service type
+     */
     private Class<? extends Service> filteredClass = TechnicalRepair.class;
 
+    /**
+     * Predicate for FilteredList allServicesModel
+     * It filters actual selected type and items in cart
+     */
     private final Predicate<Service> servicesModelTypePredicate;
+
+    /**
+     * Predicate for filteredComboboxList.
+     * It filters actual selected type.
+     */
+    private Predicate<Service> columnFilterPredicate;
+
+    // List of columns for specified service type
+    private List<TableColumn> technicalRepairColumns;
+    private List<TableColumn> tiresColumns;
+    private List<TableColumn> cleaningColumns;
 
     public ServicesTab() {
         instance = this;
@@ -122,21 +156,28 @@ public class ServicesTab implements Initializable {
                     .map(Service::getEstimatedRealizationTime)
                     .reduce(Duration.ZERO, Duration::plus);
 
-            totalPriceLabel.setText(String.format(TOTAL_PRICE_FORMAT, totalPrice));
-            estimatedLeadTimeLabel.setText(String.format(ESTIMATED_REALIZATION_FORMAT, totalDuration.toHours(), totalDuration.minusHours(totalDuration.toHours()).toMinutes()));
-            chosenServicesAmountLabel.setText(String.format(CHOSEN_SERVICES_FORMAT, cart.size()));
+            totalPriceLabel.setText(String.format(Localization.TOTAL_PRICE_FORMAT, totalPrice));
+            estimatedLeadTimeLabel.setText(String.format(Localization.ESTIMATED_REALIZATION_FORMAT, totalDuration.toHours(), totalDuration.minusHours(totalDuration.toHours()).toMinutes()));
+            chosenServicesAmountLabel.setText(String.format(Localization.CHOSEN_SERVICES_FORMAT, cart.size()));
         });
 
-        //Filters
+        // Predicates and lists
         servicesModelTypePredicate = service -> service.getClass() == filteredClass && !cart.contains(service);
         columnFilterPredicate = service -> true; // No filters at start
         allServicesModel = new FilteredList<>(FXCollections.observableArrayList(Service.getExtent()), servicesModelTypePredicate);
     }
 
+    /**
+     * Refresh services table predicate as cart content or filtered service type may change
+     */
     private void refreshServicesTable(){
         allServicesModel.setPredicate(e-> ( e.getClass() == filteredClass &&  !cart.contains(e)));
     }
 
+    /**
+     * Callback called when user changed the service type
+     * (from radiobutton)
+     */
     private void onChangedServiceTypeFilter(){
         tiresColumns.forEach(tableColumn -> tableColumn.setVisible(false));
         cleaningColumns.forEach(tableColumn -> tableColumn.setVisible(false));
@@ -153,12 +194,39 @@ public class ServicesTab implements Initializable {
         refreshServicesTable();
     }
 
+    /**
+     * Called whether client added a service to cart
+     * @param service chosen service
+     */
+    void onAddToCartClicked(Service service)
+    {
+        if(service.isHaveOnlyOneInCart())
+        {
+            boolean hasAlreadyThisServiceInCart = cart.stream()
+                    .anyMatch(e->e.getClass() == service.getClass());
+
+            if(hasAlreadyThisServiceInCart)
+            {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Błąd");
+                alert.setHeaderText("Już posiadasz usługę tego typu w koszyku");
+                alert.setContentText("Jeśli chcesz ją zmienić, usuń usługę z koszyka i spróbuj ponownie.");
+                alert.show();
+                return;
+            }
+        }
+        cart.add(service);
+        refreshServicesTable();
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Fill column lists with their columns
         technicalRepairColumns = Arrays.asList(descriptionCol, showPartsCol);
         tiresColumns = Arrays.asList(tireSizeCol, tireManYearCol, tireTypeCol);
         cleaningColumns = Arrays.asList(cleaningTypeCol, carSizeCol);
 
+        // Add listeners for radio buttons
         technicalRepairTypeRadio.selectedProperty().addListener((observableValue, wasPreviouslySelected, isNowSelected) -> {
             if(isNowSelected)
                 filteredClass = TechnicalRepair.class;
@@ -177,9 +245,11 @@ public class ServicesTab implements Initializable {
             onChangedServiceTypeFilter();
         });
 
+        // Set model for both tables
         chooseServicesTable.setItems(allServicesModel);
-        tableCart.setItems(cart);
+        cartTable.setItems(cart);
 
+        /// Column properties set
         // Common columns
         catalogueNumberCol.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(cell.getValue().getCatalogueNumber()));
         priceCol.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(String.format(Localization.CURRENCY_FORMAT, cell.getValue().getPrice())));
@@ -253,10 +323,8 @@ public class ServicesTab implements Initializable {
             }
         });
 
-        // Filters:
-
+        /// Column Filter
         // Add all services to model
-        // Filtrowalne kolumny: nr kat, opis, wielkosc opon, wielkosc auta, typ czyszczenia
         List<FilterColumnComboItem> filterColumnComboItems = new ArrayList<>();
         filterColumnComboItems.add(new FilterColumnComboItem(catalogueNumberCol, Service.class));
         filterColumnComboItems.add(new FilterColumnComboItem(descriptionCol, TechnicalRepair.class));
@@ -281,6 +349,7 @@ public class ServicesTab implements Initializable {
                 return servicesModelTypePredicate.test(s) && columnFilterPredicate.test(s); });
         }));
 
+        // Call methods for the first time in order to initialize
         onChangedServiceTypeFilter();
         refreshServicesTable();
 
@@ -298,27 +367,6 @@ public class ServicesTab implements Initializable {
         cancelButton.setOnAction(actionEvent -> pageNavigationCallback.onCancel());
     }
 
-    void onAddToCartClicked(Service service)
-    {
-        if(service.isHaveOnlyOneInCart())
-        {
-            boolean hasAlreadyThisServiceInCart = cart.stream()
-                    .anyMatch(e->e.getClass() == service.getClass());
-
-            if(hasAlreadyThisServiceInCart)
-            {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Błąd");
-                alert.setHeaderText("Już posiadasz usługę tego typu w koszyku");
-                alert.setContentText("Jeśli chcesz ją zmienić, usuń usługę z koszyka i spróbuj ponownie.");
-                alert.show();
-                return;
-            }
-        }
-        cart.add(service);
-        refreshServicesTable();
-    }
-
     public static ServicesTab getInstance() {
         return instance;
     }
@@ -327,8 +375,7 @@ public class ServicesTab implements Initializable {
         return cart;
     }
 
-    public void setPageNavigationCallback(PageNavigationCallback callback)
-    {
+    public void setPageNavigationCallback(PageNavigationCallback callback) {
         this.pageNavigationCallback = callback;
     }
 

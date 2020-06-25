@@ -1,49 +1,57 @@
 package mas.controller;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import mas.model.DeliveryAddress;
-import mas.model.TiresSwap;
 
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Controller for Delivery tab.
+ *
+ * @since 1.0
+ * @author Robert Grochowski
+ */
 public class DeliveryTab implements Initializable {
 
-    @FXML RadioButton deliverToMeRadio;
-    @FXML RadioButton dontDeliverRadio;
-    @FXML GridPane deliveryDetailsGridPane;
-    @FXML TextField cityTextField;
-    @FXML TextField streetTextField;
-    @FXML TextField houseNumberTextfield;
-    @FXML TextField flatNumberTextField;
-    @FXML Button nextButton;
-    @FXML Button backButton;
-    @FXML Button cancelButton;
+    @FXML private RadioButton deliverToMeRadio;
+    @FXML private RadioButton dontDeliverRadio;
+    @FXML private GridPane deliveryDetailsGridPane;
+    @FXML private TextField cityTextField;
+    @FXML private TextField streetTextField;
+    @FXML private TextField houseNumberTextfield;
+    @FXML private TextField flatNumberTextField;
+    @FXML private Button nextButton;
+    @FXML private Button backButton;
+    @FXML private Button cancelButton;
+
+    private static DeliveryTab instance;
 
     // Patterns for data validation // TODO: polskie znaki
-    Pattern cityPattern = Pattern.compile("^(\\w+[ ]?)+$");
-    Pattern streetPattern = Pattern.compile("^(\\w+[ ]?)+$");
-    Pattern houseNumberPattern = Pattern.compile("^[0-9]+[a-zA-Z]?$");
-    Pattern flatNumberPattern = Pattern.compile("^[0-9]+$");
+    private final Pattern cityPattern = Pattern.compile("^(\\w+[ ]?)+$");
+    private final Pattern streetPattern = Pattern.compile("^(\\w+[ ]?)+$");
+    private final Pattern houseNumberPattern = Pattern.compile("^[0-9]+[a-zA-Z]?$");
+    private final Pattern flatNumberPattern = Pattern.compile("^[0-9]+$");
 
+    /**
+     * PageNavigationCallback for calling the main controller about navigation callbacks (such as next tab)
+     */
     private PageNavigationCallback pageNavigationCallback;
-    private static DeliveryTab instance;
+
+    /**
+     * The delivery address. It may be null if client want to pickup the car in person.
+     */
     private DeliveryAddress address;
 
     public DeliveryTab() {
         instance = this;
-    }
-
-    public static DeliveryTab getInstance() {
-        return instance;
     }
 
     @Override
@@ -85,6 +93,11 @@ public class DeliveryTab implements Initializable {
         return address;
     }
 
+    /**
+     * Validates the address input
+     * @return  true  if the form is valid
+     *          false if the form is invalid
+     */
     public boolean validate() {
         if(dontDeliverRadio.isSelected())
             return true;
@@ -114,6 +127,10 @@ public class DeliveryTab implements Initializable {
             return false;
         }
         return true;
+    }
+
+    public static DeliveryTab getInstance() {
+        return instance;
     }
 
     public void setPageNavigationCallback(PageNavigationCallback pageNavigationCallback) {

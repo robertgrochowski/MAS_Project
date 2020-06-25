@@ -3,8 +3,15 @@ package mas.model;
 import javax.persistence.Entity;
 import java.time.LocalDate;
 
+/**
+ * Implemented "Administrator" class from UML diagram
+ * Administrator is a person who can manage the system
+ *
+ * @author Robert Grochowski
+ */
 @Entity
 public class Administrator extends Worker {
+
     private long totalWorkedHours;
     private long monthWorkedHours;
 
@@ -25,6 +32,7 @@ public class Administrator extends Worker {
         setMonthWorkedHours(monthWorkedHours);
     }
 
+    // Getters
     public long getTotalWorkedHours() {
         return totalWorkedHours;
     }
@@ -33,6 +41,7 @@ public class Administrator extends Worker {
         return monthWorkedHours;
     }
 
+    // Setters
     public void setTotalWorkedHours(long totalWorkedHours) {
         this.totalWorkedHours = totalWorkedHours;
     }

@@ -11,20 +11,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Implemented "Zgloszenie" class from UML diagram
+ * Ticket is a class representing an commission made by Client
+ *
+ * @author Robert Grochowski
+ * @since 1.0
+ */
 @Entity
 public class Ticket {
-    private long id;
 
+    // Fields
+    private long id;
     private String description;
     private LocalDate dateCreated;
     private LocalDate dateFinished;
+    private DeliveryAddress deliveryAddress;
 
+    // Associations
     private List<Service> services = new ArrayList<>();
     private Map<String, Service> servicesQualif = new HashMap<>();
     private List<TicketMechanic> ticketMechanics = new ArrayList<>();
     private Deliverer deliverer;
     private Client client;
-    private DeliveryAddress deliveryAddress;
     private Opinion opinion;
     private TicketStatus status;
 
@@ -36,6 +45,7 @@ public class Ticket {
         setDeliveryAddress(address);
     }
 
+    // Getters
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name="increment", strategy = "increment")
@@ -75,14 +85,6 @@ public class Ticket {
         return services;
     }
 
-    public Service findServiceQualif(String id) throws Exception {
-        if (servicesQualif.containsKey(id)) {
-            return servicesQualif.get(id);
-        }
-
-        throw new Exception("No qualified assosiation (Ticket -> Service) by qualification of ["+id+"] found");
-    }
-
     @Embedded
     public DeliveryAddress getDeliveryAddress() {
         return deliveryAddress;
@@ -98,6 +100,7 @@ public class Ticket {
         return status;
     }
 
+    // Setters
     public void setStatus(TicketStatus status) {
         this.status = status;
     }
@@ -149,11 +152,20 @@ public class Ticket {
         this.ticketMechanics = ticketMechanics;
     }
 
+    // Other
     public void addMechanic(TicketMechanic mechanic)
     {
         if(!getTicketMechanics().contains(mechanic)) {
             getTicketMechanics().add(mechanic);
         }
+    }
+
+    public Service findServiceQualif(String id) throws Exception {
+        if (servicesQualif.containsKey(id)) {
+            return servicesQualif.get(id);
+        }
+
+        throw new Exception("No qualified assosiation (Ticket -> Service) by qualification of ["+id+"] found");
     }
 
     public void addServiceQualif(Service service) {

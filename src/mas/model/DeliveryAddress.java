@@ -7,9 +7,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+/**
+ * Implemented "Adres" class from UML diagram
+ * DeliveryAddress is a class representing delivery address
+ * associated with Ticket (embedded class)
+ * @see Ticket
+ *
+ * @author Robert Grochowski
+ * @since 1.0
+ */
 @Embeddable
 public class DeliveryAddress {
 
+    // Fields
     private String city;
     private String street;
     private String homeNumber;
@@ -24,6 +34,7 @@ public class DeliveryAddress {
         setFlatNumber(flatNumber);
     }
 
+    // Getters
     public String getCity() {
         return city;
     }
@@ -40,6 +51,7 @@ public class DeliveryAddress {
         return flatNumber;
     }
 
+    // Setters
     public void setCity(String city) {
         this.city = city;
     }

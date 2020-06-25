@@ -4,13 +4,27 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
+/**
+ * Implemented "NaprawaMechanik" class from UML diagram
+ * TicketMechanic is a class with attribute connecting the following classes
+ * Mechanic and Ticket
+ * @see Ticket
+ * @see Mechanic
+ *
+ * @author Robert Grochowski
+ * @since 1.0
+ */
 @Entity
 public class TicketMechanic {
-    private long id;
 
+    // Fields
+    private long id;
+    private String workDescription;
+
+    // Associations
     private Mechanic mechanic;
     private Ticket ticket;
-    private String workDescription;
+
 
     public TicketMechanic() { }
 
@@ -19,6 +33,7 @@ public class TicketMechanic {
         setTicket(ticket);
     }
 
+    // Getters
     @Id
     @GeneratedValue(generator="increment")
     @GenericGenerator(name="increment", strategy = "increment")
@@ -36,6 +51,7 @@ public class TicketMechanic {
         return ticket;
     }
 
+    // Setters
     public void setId(long id) {
         this.id = id;
     }

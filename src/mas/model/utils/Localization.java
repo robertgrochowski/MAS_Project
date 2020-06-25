@@ -7,10 +7,19 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * Class representing translation for in-code stings.
+ *
+ * @since 1.0
+ * @author Robert Grochowski
+ */
 public class Localization {
 
     public static final String CURRENCY_FORMAT = "%.2fzł";
     public static final String DURATION_FORMAT = "%dh %dmin";
+    public final static String ESTIMATED_REALIZATION_FORMAT = "Szacowany czas realizacji: "+ DURATION_FORMAT;
+    public final static String TOTAL_PRICE_FORMAT = "SUMA: %.2f PLN";
+    public final static String CHOSEN_SERVICES_FORMAT = "Ilość wybranych usług: %d";
     public static Map<Locale, Map<TiresSwap.SeasonType, String>> tiresType = new HashMap<>();
     public static Map<Locale, Map<Cleaning.Type, String>> cleaningType = new HashMap<>();
     public static Locale appLocale;

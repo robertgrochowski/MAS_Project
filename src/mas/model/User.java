@@ -6,18 +6,31 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implemented "Uzytkownik" class from UML diagram
+ * User is a class representing user in our system
+ * (a person who can use the system).
+ * It can be connected with Worker and/or Client
+ * @see Worker
+ * @see Client
+ *
+ * @author Robert Grochowski
+ * @since 1.0
+ */
 @Entity
 public class User {
-    private static List<User> extent = new ArrayList<>();
-    private long id;
+    private static final List<User> extent = new ArrayList<>();
 
+    // Fields
+    private long id;
     private String name;
     private String surname;
-    private String login; //Unique
+    private String login;
     private String password;
     private String phoneNumber;
     private String email;
 
+    // Associations
     private Worker worker;
     private Client client;
 
@@ -35,7 +48,7 @@ public class User {
         extent.add(this);
     }
 
-    // -- Getters --
+    // Getters
     @Id
     @GeneratedValue(generator="increment")
     @GenericGenerator(name="increment", strategy = "increment")
@@ -81,7 +94,7 @@ public class User {
         return extent;
     }
 
-    // -- Setters --
+    // Setters
     public void setId(long id) {
         this.id = id;
     }

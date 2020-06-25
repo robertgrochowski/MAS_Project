@@ -7,17 +7,25 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implemented "Usluga" class from UML diagram
+ * Service is an abstract class representing single Service in our system
+ *
+ * @author Robert Grochowski
+ * @since 1.0
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Service {
     private static final List<Service> serviceExtent = new ArrayList<>();
 
+    // Fields
     private long id;
-
     private String catalogueNumber;
     private double basePrice;
     private boolean canHaveOnlyOneInCart;
 
+    // Associations
     private List<Ticket> tickets;
 
     public Service(){
@@ -31,7 +39,7 @@ public abstract class Service {
         setCatalogueNumber(catalogueNumber);
     }
 
-    // -- Getters --
+    // Getters
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
@@ -60,7 +68,7 @@ public abstract class Service {
         return tickets;
     }
 
-    // -- Setters --
+    // Setters
     public void setHaveOnlyOneInCart(boolean can) {
         canHaveOnlyOneInCart = can;
     }
@@ -74,7 +82,8 @@ public abstract class Service {
     }
 
     public void setCatalogueNumber(String catalogueNumber) throws Exception {
-        if(getCatalogueNumber() != null && serviceExtent.stream().map(Service::getCatalogueNumber).anyMatch(c->c.equals(catalogueNumber)))
+        if(getCatalogueNumber() != null &&
+                serviceExtent.stream().map(Service::getCatalogueNumber).anyMatch(c->c.equals(catalogueNumber)))
             throw new Exception("The object with given catalogue number already exists! (id=" + catalogueNumber + ")");
 
         this.catalogueNumber = catalogueNumber;
@@ -87,14 +96,14 @@ public abstract class Service {
         this.basePrice = basePrice;
     }
 
-    // -- Abstract methods --
+    // Abstract methods
     @Transient
     public abstract Duration getEstimatedRealizationTime();
 
     @Transient
     public abstract double getPrice();
 
-    // -- Other --
+    // Other
     public void addTicket(Ticket ticket) {
         if (!getTickets().contains(ticket)) {
             getTickets().add(ticket);

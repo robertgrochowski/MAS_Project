@@ -23,13 +23,13 @@ import java.util.ResourceBundle;
 
 public class CarPartDialog implements Initializable {
 
-    @FXML TableView<CarPart> partsTable;
-    @FXML TableColumn<CarPart, String> nameCol;
-    @FXML TableColumn<CarPart, String> costCol;
-    @FXML TableColumn<CarPart, String> replaceTimeCol;
-    @FXML Button okButton;
-    @FXML TechnicalRepair technicalRepair;
-    @FXML ObservableList<CarPart> partsList = FXCollections.observableArrayList();
+    @FXML private TableView<CarPart> partsTable;
+    @FXML private TableColumn<CarPart, String> nameCol;
+    @FXML private TableColumn<CarPart, String> costCol;
+    @FXML private TableColumn<CarPart, String> replaceTimeCol;
+    @FXML private Button okButton;
+    @FXML private TechnicalRepair technicalRepair;
+    @FXML private ObservableList<CarPart> partsList = FXCollections.observableArrayList();
 
     public void setTechnicalRepair(TechnicalRepair technicalRepair) {
         this.technicalRepair = technicalRepair;

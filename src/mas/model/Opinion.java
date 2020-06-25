@@ -10,16 +10,26 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Implemented "Opinia" class from UML diagram
+ * Opinion is a client's opinion about the work performed
+ *
+ * @author Robert Grochowski
+ * @since 1.0
+ */
 @Entity
 public class Opinion
 {
-    private long id;
     private static final int MAX_DAYS_TO_ADD_OPINION = 14;
     private static final Set<Integer> validMarks = new HashSet<>(Arrays.asList(1,2,3,4,5));
 
+    // Fields
+    private long id;
     private LocalDateTime timeCreated;
     private int mark;
     private String comment;
+
+    // Associations
     private Ticket ticket;
 
     public Opinion() {
@@ -41,6 +51,7 @@ public class Opinion
         setComment(comment);
     }
 
+    // Getters
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name="increment", strategy = "increment")
@@ -65,6 +76,7 @@ public class Opinion
         return ticket;
     }
 
+    // Setters
     public void setId(long id) {
         this.id = id;
     }

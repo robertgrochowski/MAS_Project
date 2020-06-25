@@ -8,6 +8,16 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implemented "Czyszczenie" class from UML diagram
+ * Cleaning is a car cleaning type service.
+ * It contains required enums: CarSize and Type
+ * @see CarSize
+ * @see Type
+ *
+ * @author Robert Grochowski
+ * @since 1.0
+ */
 @Entity
 public class Cleaning extends Service {
     public enum CarSize {
@@ -41,6 +51,7 @@ public class Cleaning extends Service {
     private static final double BASE_PRICE = 50;
     private static final Duration BASE_TIME = Duration.ofMinutes(20);
 
+    // Fields
     private CarSize carSize;
     private Type type;
 
@@ -91,7 +102,7 @@ public class Cleaning extends Service {
         this.type = type;
     }
 
-
+    // Other
     @Override
     public String toString() {
         return "Czyszczenie: "+ Localization.getLocalizedStringType(getType())+", "+getCarSize();

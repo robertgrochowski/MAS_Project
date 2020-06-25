@@ -16,11 +16,22 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class AddCommission implements Initializable, PageNavigationCallback {
-    @FXML TabPane tabPane;
-    @FXML Tab servicesTab;
-    @FXML Tab deliveryTab;
-    @FXML Tab summaryTab;
+/**
+ * Controller for main window. It contains 3 tabs inside.
+ * (Services tab, delivery tab and summary tab)
+ * @see ServicesTab
+ * @see DeliveryTab
+ * @see SummaryTab
+ *
+ * @since 1.0
+ * @author Robert Grochowski
+ */
+
+public class TabsController implements Initializable, PageNavigationCallback {
+    @FXML private TabPane tabPane;
+    @FXML private Tab servicesTab;
+    @FXML private Tab deliveryTab;
+    @FXML private Tab summaryTab;
 
     private final Tab[] tabsOrder = new Tab[3];
     private int currentTabIndex = 0;

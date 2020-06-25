@@ -7,16 +7,25 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implemented "Klient" class from UML diagram
+ * Client is a client(customer) in our system
+ *
+ * @author Robert Grochowski
+ * @since 1.0
+ */
 @Entity
 public class Client {
-    private long id;
 
+    // Fields
+    private long id;
     private LocalDateTime registrationDate;
+
+    // Associations
     private List<Ticket> tickets = new ArrayList<>();
     private User user;
 
-    public Client() {
-    }
+    public Client() { }
 
     public Client(User user, LocalDateTime registrationDate) throws Exception {
         if(user == null) {
@@ -27,6 +36,7 @@ public class Client {
         setRegistrationDate(registrationDate);
     }
 
+    // Getters
     @Id
     @GeneratedValue(generator="increment")
     @GenericGenerator(name="increment", strategy = "increment")
@@ -48,14 +58,7 @@ public class Client {
         return user;
     }
 
-    public void addTicket(Ticket ticket) {
-        if (!getTickets().contains(ticket)) {
-            getTickets().add(ticket);
-
-            ticket.setClient(this);
-        }
-    }
-
+    // Setters
     public void setId(long id) {
         this.id = id;
     }
@@ -70,5 +73,14 @@ public class Client {
 
     public void setRegistrationDate(LocalDateTime registrationDate) {
         this.registrationDate = registrationDate;
+    }
+
+    // Other
+    public void addTicket(Ticket ticket) {
+        if (!getTickets().contains(ticket)) {
+            getTickets().add(ticket);
+
+            ticket.setClient(this);
+        }
     }
 }
