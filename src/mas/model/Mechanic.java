@@ -53,15 +53,16 @@ public class Mechanic extends Worker {
         this.mechanicTickets = mechanicTickets;
     }
 
-    public void addCompletedCourse(String course) {
-        completedCourses.add(course);
-    }
-
     public void setCompletedCourses(Set<String> completedCourses) {
         this.completedCourses = completedCourses;
     }
 
     // Other
+
+    public void addCompletedCourse(String course) {
+        completedCourses.add(course);
+    }
+
     public void addTicket(TicketMechanic ticket)
     {
         if(!getMechanicTickets().contains(ticket)) {

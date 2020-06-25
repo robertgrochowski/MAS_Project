@@ -9,13 +9,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mas.model.CarPart;
-import mas.model.utils.Localization;
 import mas.model.TechnicalRepair;
+import mas.model.utils.Localization;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,12 +29,12 @@ public class CarPartDialog implements Initializable {
     @FXML private TableColumn<CarPart, String> costCol;
     @FXML private TableColumn<CarPart, String> replaceTimeCol;
     @FXML private Button okButton;
-    @FXML private TechnicalRepair technicalRepair;
-    @FXML private ObservableList<CarPart> partsList = FXCollections.observableArrayList();
+    @FXML private Label repairNameLabel;
+    private final ObservableList<CarPart> partsList = FXCollections.observableArrayList();
 
     public void setTechnicalRepair(TechnicalRepair technicalRepair) {
-        this.technicalRepair = technicalRepair;
         partsList.addAll(technicalRepair.getCarParts());
+        repairNameLabel.setText(technicalRepair.getDescription());
     }
 
     @Override

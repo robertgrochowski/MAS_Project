@@ -3,6 +3,7 @@ package mas.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.Duration;
 import java.time.LocalDate;
 
 /**
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Worker {
-    private static double BASE_BONUS = 200;
+    private static final double BASE_BONUS = 200;
 
     // Fields
     private long id;
@@ -83,11 +84,18 @@ public abstract class Worker {
         this.user = user;
     }
 
-    public void setSackingDate(LocalDate sackingDate) {
+    public void setSackingDate(LocalDate sackingDate) throws Exception {
+        if(sackingDate != null && getEmploymentDate() != null && Duration.between(getEmploymentDate(), sackingDate).toDays() < 0) {
+            throw new Exception("Sacking date cannot be before employment! " +
+                    "(employment=" + getEmploymentDate() + " sacking="+sackingDate+")");
+        }
         this.sackingDate = sackingDate;
     }
 
-    public void setSalary(double salary) {
+    public void setSalary(double salary) throws Exception {
+        if(salary < 0) {
+            throw new Exception("Salary cannot be less than 0! (" + salary + " given)");
+        }
         this.salary = salary;
     }
 
@@ -99,7 +107,11 @@ public abstract class Worker {
         this.id = id;
     }
 
-    public void setEmploymentDate(LocalDate employmentDate) {
+    public void setEmploymentDate(LocalDate employmentDate) throws Exception {
+        if(getSackingDate() != null && employmentDate != null && Duration.between(employmentDate, getEmploymentDate()).toDays() < 0) {
+            throw new Exception("Employment date cannot be after sacking date! " +
+                    "(employment=" + employmentDate + " sacking="+getSackingDate()+")");
+        }
         this.employmentDate = employmentDate;
     }
 

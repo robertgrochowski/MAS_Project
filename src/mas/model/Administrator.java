@@ -42,11 +42,17 @@ public class Administrator extends Worker {
     }
 
     // Setters
-    public void setTotalWorkedHours(long totalWorkedHours) {
+    public void setTotalWorkedHours(long totalWorkedHours) throws Exception {
+        if(totalWorkedHours < 0) {
+            throw new Exception("Total worked hours cannot be less than 0! (" + totalWorkedHours + " given)");
+        }
         this.totalWorkedHours = totalWorkedHours;
     }
 
-    public void setMonthWorkedHours(long monthWorkedHours) {
+    public void setMonthWorkedHours(long monthWorkedHours) throws Exception {
+        if(totalWorkedHours < 0) {
+            throw new Exception("Month worked hours cannot be less than 0! (" + totalWorkedHours + " given)");
+        }
         this.monthWorkedHours = monthWorkedHours;
     }
 

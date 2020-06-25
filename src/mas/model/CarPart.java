@@ -32,7 +32,7 @@ public class CarPart {
         carPartExtent.add(this);
     }
 
-    public CarPart(String name, double cost, Duration avgReplaceTime) {
+    public CarPart(String name, double cost, Duration avgReplaceTime) throws Exception {
         setName(name);
         setCost(cost);
         setAvgReplaceTime(avgReplaceTime);
@@ -77,7 +77,10 @@ public class CarPart {
         this.name = name;
     }
 
-    private void setCost(double cost) {
+    private void setCost(double cost) throws Exception {
+        if(cost < 0) {
+            throw new Exception("Cost cannot be less than 0! (" + cost + " given)");
+        }
         this.cost = cost;
     }
 

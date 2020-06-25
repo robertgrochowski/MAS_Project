@@ -211,6 +211,7 @@ public class ServicesTab implements Initializable {
             boolean hasAlreadyThisServiceInCart = cart.stream()
                     .anyMatch(e->e.getClass() == service.getClass());
 
+            // TODO: move strings to Localization
             if(hasAlreadyThisServiceInCart)
             {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -361,6 +362,7 @@ public class ServicesTab implements Initializable {
         refreshServicesTable();
 
         // Navigation buttons
+        // TODO: move strings to Localization
         nextButton.setOnAction(actionEvent -> {
             if(cart.size() < 1) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);

@@ -90,7 +90,10 @@ public class TiresSwap extends Service {
         this.size = size;
     }
 
-    public void setYearOfManufacture(int yearOfManufacture) {
+    public void setYearOfManufacture(int yearOfManufacture) throws Exception {
+        if(yearOfManufacture < 1900) {
+            throw new Exception("Year of manufacture cannot be less than 1900! (" + yearOfManufacture + " given)");
+        }
         this.yearOfManufacture = yearOfManufacture;
     }
 

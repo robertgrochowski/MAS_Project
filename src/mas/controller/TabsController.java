@@ -3,7 +3,10 @@ package mas.controller;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import mas.Main;
 import mas.model.Service;
 import mas.model.Ticket;
@@ -84,6 +87,7 @@ public class TabsController implements Initializable, PageNavigationCallback {
 
     @Override
     public void onCancel() {
+        // TODO: move strings to Localization
         ButtonType yes = new ButtonType("Tak");
         ButtonType no = new ButtonType("Nie");
 
@@ -111,6 +115,7 @@ public class TabsController implements Initializable, PageNavigationCallback {
         ticket.setStatus(TicketStatus.SUBMITTED);
 
         // Save
+        // TODO: move strings to Localization
         try{
             Session session = Main.getSessionFactory().openSession();
             session.beginTransaction();

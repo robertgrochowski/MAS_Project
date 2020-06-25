@@ -1,45 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
-
-<AnchorPane minHeight="200" minWidth="300" prefHeight="400.0" prefWidth="449.0"
-            xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="mas.controller.CarPartDialog">
-    <BorderPane layoutX="73.0" layoutY="88.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
-                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <top>
-          <Label text="Części w naprawie" BorderPane.alignment="CENTER">
-              <font>
-                  <Font size="16.0"/>
-              </font>
-              <BorderPane.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-              </BorderPane.margin>
-          </Label>
-        </top>
+<?import javafx.scene.text.Font?>
+<AnchorPane minHeight="200" minWidth="300" prefHeight="400.0" prefWidth="449.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mas.controller.CarPartDialog">
+    <BorderPane layoutX="73.0" layoutY="88.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <center>
           <TableView fx:id="partsTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <columns>
-                  <TableColumn fx:id="nameCol" minWidth="50.0" prefWidth="50.0" text="Nazwa"/>
-                  <TableColumn fx:id="costCol" minWidth="40.0" prefWidth="40.0" text="Koszt"/>
-                  <TableColumn fx:id="replaceTimeCol" minWidth="40.0" prefWidth="50.0" text="Czas wymiany"/>
+                  <TableColumn fx:id="nameCol" minWidth="50.0" prefWidth="50.0" text="Nazwa" />
+                  <TableColumn fx:id="costCol" minWidth="40.0" prefWidth="40.0" text="Koszt" />
+                  <TableColumn fx:id="replaceTimeCol" minWidth="40.0" prefWidth="50.0" text="Czas wymiany" />
               </columns>
               <columnResizePolicy>
-                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
               </columnResizePolicy>
           </TableView>
         </center>
         <bottom>
-          <Button fx:id="okButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
-                  prefHeight="35.0" prefWidth="70.0" text="OK" BorderPane.alignment="TOP_RIGHT">
+          <Button fx:id="okButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="35.0" prefWidth="70.0" text="OK" BorderPane.alignment="TOP_RIGHT">
               <BorderPane.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
               </BorderPane.margin>
           </Button>
         </bottom>
+      <top>
+         <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+            <children>
+               <Label text="Części w naprawie">
+                  <font>
+                     <Font size="16.0" />
+                  </font>
+               </Label>
+               <Label fx:id="repairNameLabel" text="nazwa naprawy" />
+            </children></VBox>
+      </top>
     </BorderPane>
 </AnchorPane>

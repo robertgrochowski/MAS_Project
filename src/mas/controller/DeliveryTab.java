@@ -103,6 +103,7 @@ public class DeliveryTab implements Initializable {
         if(dontDeliverRadio.isSelected())
             return true;
 
+        // TODO: move strings to Localization
         StringBuilder errors = new StringBuilder();
         if(!cityPattern.matcher(cityTextField.getText().trim()).matches()) {
             errors.append("- Miasto; Poprawny format to słowa oddzielone spacją.").append('\n');
